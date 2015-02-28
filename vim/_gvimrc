@@ -1,0 +1,91 @@
+" put this line first in ~/.vimrc
+" vivek edited this file
+set nocompatible | filetype indent plugin on | syn on
+
+syntax on
+set number
+autocmd InsertEnter,InsertLeave * set cul!
+" Adds a long line to indicate -- INSERT -- mode
+
+" Sauce - http://www.vex.net/~x/python_and_vim.html
+set smartindent
+" Automatically indents when and where required
+
+set tabstop=4
+" Sets tab width to 4 (Prefered for Python)
+
+set shiftwidth=4
+" Allows you to use < and > keys in -- VISUAL -- mode for indenting
+" and unindenting 
+
+set expandtab
+" Inserts 4 spaces when <TAB> is pressed
+
+set softtabstop=4
+" Makes vim see four spaces as a <TAB>
+
+" im :<CR> :<CR><TAB>
+" Detects when you type a colon and press enter. Indents next line
+" This is for Python
+
+set pastetoggle=<F10>
+" Pressing F10 toogles -- INSERT (paste) --
+
+colorscheme  molokai
+
+" set scrolloff=20
+" Ensures that cursor stays at middle of the screen.
+
+set hlsearch
+" Sets the highlight search
+
+au FileType c,cpp map <F9> :w\|!$shell_scripts/build.sh %:r<CR>
+au FileType c,cpp map <F8> :w\|!$shell_scripts/build.sh %:r
+au FileType c,cpp map <F7> :w\|!$shell_scripts/foo.sh %:r<CR>
+au FileType c,cpp set formatoptions-=r
+au FileType c,cpp set formatoptions-=o
+" Build tool for C/C++
+"
+au FileType python map <F9> :w\|!python %:p<CR>
+" Build tool for Python
+
+au FileType perl map <F9> :w\|!perl %:p<CR>
+" Build tool for Perl
+
+" au FileType markdown map <F9> :w\|!markdown %:p > foo.html\|google-chrome-stable foo.html\| rm foo.html<CR>
+" Build tool for markdown
+
+au BufRead,BufNewFile *.md set filetype=markdown
+au FileType markdown set com=s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,b:-
+au FileType markdown set formatoptions+=o
+au FileType markdown set formatoptions+=r
+" au BufRead,BufNewFile *.md set formatoptions+=r
+" Automatically sets syntax highlighting for .md files
+
+au BufRead,BufNewFile *.bash* set filetype=sh
+" Sets syntax highlighting for bash_aliases and histor
+
+hi Normal ctermbg=NONE
+" Makes Vim Transparent
+
+set relativenumber
+" Sets relative line numbers
+
+set backupdir=~/.vim/vimtmp,.
+set directory=~/.vim/vimtmp,.
+
+set guioptions -=m 
+" Removes menubar
+
+set guioptions -=T
+" Removes toolbar
+
+set guioptions -=r
+" Removes scrollbar
+   
+
+set runtimepath=~/.vim,$VIMRUNTIME
+set backupdir=~/.vim/vimtmp,.
+set directory=~/.vim/vimtmp,.
+" Saves the ~ files to vimtmp
+

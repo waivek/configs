@@ -1,0 +1,8 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =6
+let g:netrw_dirhist_1='/mnt/NTFS1/Dropbox/changelogs'
+let g:netrw_dirhist_2='/mnt/NTFS1/Dropbox/Public/configs/vim/.vim/vim-addons/vim-snippets'
+let g:netrw_dirhist_3='/home/waivek/Desktop'
+let g:netrw_dirhist_4='/home/waivek/Desktop/foo'
+let g:netrw_dirhist_5='/home/waivek/Desktop/C++/object-oriented-programming/listItem'
+let g:netrw_dirhist_6='/mnt/Dropbox/Public/configs/vim/.vim/vim-addons/EasyMotion/plugin'
