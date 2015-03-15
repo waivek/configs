@@ -1,33 +1,44 @@
+" TODO: Install vim with python support
 " put this line first in ~/.vimrc
 set nocompatible | filetype indent plugin on | syn on 
 " Shows commands
+    " set statusline+=%#warningmsg#
+    set statusline+=%{SyntasticStatuslineFlag()}
+    "set statusline+=%*
 set showcmd
 " Incremental Search
 set incsearch
 "Shows commands
 
-map <Leader>b @b
-map <Leader>f H\\f
-
-map <Leader>t :call Toggle()<CR>
 " Same as let mapleader = " " but space shows in showcmd
 map <space> <Leader>
 " let mapleader = " "
-nmap <Leader>a :vs %:p:h/code/01/%:.<CR> 
-nmap <Leader>z :sp $vimsnip/c.snippets<CR>
+" nmap <Leader>a :vs %:p:h/code/01/%:.<CR> 
 nmap <Leader>q :set nohls!<CR>
-nmap <Leader>r :w<CR>:source %<CR>
 
-map <Leader>u :call UpdateHeaderFile()<CR>
-map <Leader>h :call CreateHeaderFile()<CR>
+map <Leader>t :NERDTreeToggle<CR>
 
-nmap <Leader>v :vs 
-nmap <Leader>s :sp 
+nnoremap <Leader>v tH
+nnoremap <Leader>s tK
+cabbrev h tab help
 
-nmap hh :help 
-nnoremap hv tH
-nnoremap hs tK
-map he :e!#<CR>
+" TODO: Remove functions. Do purely via {rhs}
+function! HorizontalToVertical()
+    normal! tH
+endfunction
+function! VerticalToHorizontal()
+    normal! tK
+endfunction
+cabbrev h2v :call HorizontalToVertical()<CR>
+cabbrev v2h :call VerticalToHorizontal()<CR>
+
+map hu :silent! call UpdateHeaderFile()<CR>
+map hh :silent! call CreateHeaderFile()<CR>
+map ht :call Toggle()<CR>
+au FileType vim map hb @b 
+" ' r ;  call A()'
+au FileType vim nmap hr :w<CR>:source %<CR>
+au FileType c,cpp map hb <F7>
 
 noremap j h
 noremap k j
@@ -38,18 +49,16 @@ nnoremap <Leader>j <C-W>h
 nnoremap <Leader>k <C-W>j
 nnoremap <Leader>l <C-W>k
 nnoremap <Leader>; <C-W>l
+nnoremap <Leader>o <C-W>o
+nnoremap <Leader>c <C-W>c
+nnoremap <Leader>x <C-W>x
 
-map <Leader>o <C-W>o
-map <Leader>c <C-W>c
-map <Leader>x <C-W>x
-
+map <Leader>N :bN<CR>
 map <Leader>n :bn<CR>
-map <Leader>p :bp<CR>
 map <Leader>d :bd<CR>
 
 map <Leader>w :w<CR>
-map <Leader>e :e 
-map <Leader>3 :e#<CR>
+map <Leader>e :e#<CR>
 
 map <Leader><space> :
 
@@ -82,11 +91,16 @@ set softtabstop=4
 set pastetoggle=<F10>
 " Pressing F10 toogles -- INSERT (paste) --
 
-colorscheme  molokai
-" Sets color of lineno columns same as molokai background
-hi LineNr ctermbg = 235
-" All Lines Without Text (New File) now have same color as lines with text
-hi NonText ctermbg = 235
+if has("unix")
+    colorscheme  molokai
+    " Sets color of lineno columns same as molokai background
+    hi LineNr ctermbg = 235
+    " All Lines Without Text (New File) now have same color as lines with text
+    hi NonText ctermbg = 235
+endif
+if has("win32")
+    colorscheme SolarizedDark
+endif
 
 " set scrolloff=20
 " Ensures that cursor stays at middle of the screen.
@@ -138,28 +152,62 @@ set backspace=indent,eol,start
 set splitright
 
 fun! SetupVAM()
-  let c = get(g:, 'vim_addon_manager', {})
-  let g:vim_addon_manager = c
-  let c.plugin_root_dir = expand('$HOME', 1) . '/.vim/vim-addons'
-  " most used options you may want to use:
-  " let c.log_to_buf = 1
-  " let c.auto_install = 0
-  let &rtp.=(empty(&rtp)?'':',').c.plugin_root_dir.'/vim-addon-manager'
-  if !isdirectory(c.plugin_root_dir.'/vim-addon-manager/autoload')
-    execute '!git clone --depth=1 git://github.com/MarcWeber/vim-addon-manager '
-        \       shellescape(c.plugin_root_dir.'/vim-addon-manager', 1)
-  endif
+    let c = get(g:, 'vim_addon_manager', {})
+    let g:vim_addon_manager = c
+    let c.plugin_root_dir = expand('$HOME', 1) . '/.vim/vim-addons'
+    " most used options you may want to use:
+    " let c.log_to_buf = 1
+    " let c.auto_install = 0
+    let &rtp.=(empty(&rtp)?'':',').c.plugin_root_dir.'/vim-addon-manager'
+    if !isdirectory(c.plugin_root_dir.'/vim-addon-manager/autoload')
+      execute '!git clone --depth=1 git://github.com/MarcWeber/vim-addon-manager '
+          \       shellescape(c.plugin_root_dir.'/vim-addon-manager', 1)
+    endif
 
-  " This provides the VAMActivate command, you could be passing plugin names, too
-  call vam#ActivateAddons([], {})
+    " This provides the VAMActivate command, you could be passing plugin names, too
+    call vam#ActivateAddons([], {})
 endfun
-call SetupVAM()
 
-VAMActivate vim-snippets 
-VAMActivate snipmate 
-VAMActivate tComment 
-VAMActivate EasyMotion
-" TODO: Install vim with python support
+if has("unix")
+    call SetupVAM()
+    VAMActivate vim-snippets 
+    VAMActivate snipmate 
+    VAMActivate tComment 
+    VAMActivate EasyMotion
+    VAMActivate The_NERD_tree
+    VAMActivate Syntastic
 " ==================VIMSCRIPT FUNCTIONS===============================
-source $dropbox/vimscripts/header_plugin.vim
-source $dropbox/vimscripts/toggle_plugin.vim
+    source $dropbox/vimscripts/header_plugin.vim
+    source $dropbox/vimscripts/toggle_plugin.vim
+endif
+if has("win32")
+    let g:vim_addon_manager = {}
+    " for windows users, see https://github.com/MarcWeber/vim-addon-manager/issues/111
+    fun! MyPluginDirFromName(name)
+      let dir = vam#DefaultPluginDirFromName(a:name)
+      return substitute(dir,'%','_', 'g')
+    endf
+    let g:vim_addon_manager['plugin_dir_by_name'] = 'MyPluginDirFromName'
+    " use either windows or linux location - whichever exists
+    " exec 'set runtimepath+='.filter([$HOME.'\.vim', $HOME.'\vimfiles'],'isdirectory(v:val)')[0].'\vim-addons\vim-addon-manager'
+    " let path="C:\\Users\\Toshiba PC\\AppData\\Roaming\\SPB_16.6\\.vim\\vim-addons\\vim-addon-manager"
+    " exec 'set runtimepath+=' . path
+    " exec 'set runtimepath+=$HOME'
+    " call vam#ActivateAddons(["tComment"], {'auto_install' : 1})
+endif
+
+" ==================VIMSCRIPT FUNCTIONS===============================
+" source $dropbox/vimscripts/header_plugin.vim
+" source $dropbox/vimscripts/toggle_plugin.vim
+function! A()
+    let @a=""
+    :g/Leader>/y A
+    exec 'edit' '~/Leader'
+    normal! ggdG
+    normal! "ap
+    :g/"/d
+    :%s/\(.*>\)\(.\)\(.*\)/\2
+    :g/^ *$/d
+    :sort i
+endfunction
+    
