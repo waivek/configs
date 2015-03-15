@@ -1,0 +1,25 @@
+snippet ifeq
+	ifeq (${1:cond0},${2:cond1})
+		${0}
+	endif
+
+snippet obj
+	${1:foo}.o: $1.c
+		$(CC) $(CFLAGS) $1.c
+
+snippet main
+	CC=gcc
+	CFLAGS=-c -Wall
+	objects=
+
+	all: main
+
+	main: $(objects)
+		$(CC) $(objects) -o main
+
+	${0}
+
+	clean: 
+		rm -f *.o
+		rm -f main
+	
