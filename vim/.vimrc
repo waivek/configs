@@ -159,7 +159,7 @@ au FileType markdown map ho :call MakeSpace('below')<CR>
 au FileType markdown map hO :call MakeSpace('above')<CR>
 
 au FileType markdown source $dropbox\vimscripts\markdown_code_extractor.vim
-au FileType markdown map hw :call CreateNewSourceFile()<CR>:e#<CR>
+au FileType markdown map hw :call CreateNewSourceFile()<CR>:e#<CR>:execute "normal! 3<C-O>"<CR>
 " au BufRead,BufNewFile *.md set formatoptions+=r
 " Automatically sets syntax highlighting for .md files
 
