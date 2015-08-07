@@ -13,6 +13,8 @@ set incsearch
 
 set textwidth=80
 
+" Disables annoying bells in gvim
+set noeb vb t_vb=
 " Removes right-scrollbar(r) 
 " Removes menu(T) 
 " Removes left-scrollbar (L)
@@ -26,6 +28,7 @@ endif
 if has("win32")
     let $vimrc = 'X:\Dropbox\Public\configs\vim\.vimrc'
     let $gvimrc = $vimrc
+    let $haskell = 'X:\Dropbox\haskell'
     let $spanish = 'X:\Dropbox\js\spanish'
     let $jsnips = 'X:\Dropbox\Public\configs\vim\.vim\vim-addons\vim-snippets\snippets\javascript'
     let $dropbox = 'X:\Dropbox'
@@ -79,6 +82,7 @@ map <Leader><space> :
 map hu :silent! call UpdateHeaderFile()<CR>
 map hh :silent! call CreateHeaderFile()<CR>
 map ht :call Toggle()<CR>
+nnoremap h; ;
 au FileType vim map hb :call A()<CR>
 au FileType vim nmap hr :w<CR>:source %<CR>
 au FileType c,cpp map hb <F7>
@@ -163,6 +167,7 @@ au FileType markdown map hw :call CreateNewSourceFile()<CR>:e#<CR>:execute "norm
 " au BufRead,BufNewFile *.md set formatoptions+=r
 " Automatically sets syntax highlighting for .md files
 
+au FileType haskell nnoremap hi :call InsertHaskellCommentHeader()<CR>
 
 " JSLint Setup
 if has("win32")
@@ -217,6 +222,7 @@ if has("unix")
     VAMActivate unite
     VAMActivate fugitive
     VAMActivate markdown@tpope
+    VAMActivate AsyncCommand
 " ==================VIMSCRIPT FUNCTIONS===============================
     source $dropbox/vimscripts/header_plugin.vim
     source $dropbox/vimscripts/toggle_plugin.vim
@@ -247,6 +253,7 @@ if has("win32")
     call vam#ActivateAddons(["unite"], {'auto_install' : 1})
     call vam#ActivateAddons(["fugitive"], {'auto_install' : 1})
     call vam#ActivateAddons(["markdown@tpope"], {'auto_install' : 1})
+    call vam#ActivateAddons(["AsyncCommand"], {'auto_install' : 1})
 
 endif
 
@@ -254,6 +261,14 @@ endif
 " ==================VIMSCRIPT FUNCTIONS===============================
 " source $dropbox/vimscripts/header_plugin.vim
 " source $dropbox/vimscripts/toggle_plugin.vim
+function! GetFilePathWithExtension()
+    return expand('%:')
+endfunction
+function! InsertHaskellCommentHeader()
+    let b:x = '--file: ' . GetFilePathWithExtension() 
+    :0put=b:x
+    normal! G
+endfunction
 function! A()
     let @a=""
     normal! 2o
