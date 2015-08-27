@@ -6,7 +6,7 @@ alias t='vim $dropbox/to-do.md'
 alias song='youtube-dl -x -a ~/Desktop/songs.txt'
 alias tmux='tmux -2'
 
-export dropbox='/mnt/Dropbox'
+export dropbox='/media/sf_Dropbox'
 export foo="${dropbox}/sh/foo.sh"
 export websc="${dropbox}/python/Webscraping"
 export vimtmp='/home/shree/.vim/vimtmp'

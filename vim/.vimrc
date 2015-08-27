@@ -19,31 +19,11 @@ set noeb vb t_vb=
 " Removes menu(T) 
 " Removes left-scrollbar (L)
 if has("win32")
-    set guioptions-=r
-    set guioptions-=T
-    set guioptions-=L
-    set guifont=Consolas:h11:cANSI
 endif
 
-if has("win32")
-    let $vimrc = 'X:\Dropbox\Public\configs\vim\.vimrc'
-    let $gvimrc = $vimrc
-    let $haskell = 'X:\Dropbox\haskell'
-    let $spanish = 'X:\Dropbox\js\spanish'
-    let $jsnips = 'X:\Dropbox\Public\configs\vim\.vim\vim-addons\vim-snippets\snippets\javascript'
-    let $dropbox = 'X:\Dropbox'
-endif
+" TODO: Unify paths by making a function that substitues '\' for '/'
+" TODO: and another function to do the opposite.
 
-" Same as let mapleader = " " but space shows in showcmd
-map <space> <Leader>
-" let mapleader = " "
-nmap <Leader>a :Git add %:p<CR><CR>
-nmap <Leader>q :set nohls!<CR>
-
-map <Leader>t :NERDTreeToggle<CR>
-
-nnoremap <Leader>v tH
-nnoremap <Leader>s tK
 cabbrev h tab help
 cabbrev help tab help
 
@@ -62,6 +42,10 @@ noremap k j
 noremap l k
 noremap ; l
 
+" Same as let mapleader = " " but space shows in showcmd
+map <space> <Leader>
+" let mapleader = " "
+
 nnoremap <Leader>j <C-W>h
 nnoremap <Leader>k <C-W>j
 nnoremap <Leader>l <C-W>k
@@ -70,18 +54,35 @@ nnoremap <Leader>o <C-W>o
 nnoremap <Leader>c <C-W>c
 nnoremap <Leader>x <C-W>x
 
-map <Leader>N :bN<CR>
-map <Leader>n :bn<CR>
-map <Leader>d :bd<CR>
+nnoremap <Leader>N :bN<CR>
+nnoremap <Leader>n :bn<CR>
+nnoremap <Leader>d :bd<CR>
 
-map <Leader>w :w<CR>
-map <Leader>e :e#<CR>
+nnoremap <Leader>w :w<CR>
+nnoremap <Leader>e :e#<CR>
 
-map <Leader><space> :
+nnoremap <Leader>h :cd %:h<CR>
 
-map hu :silent! call UpdateHeaderFile()<CR>
-map hh :silent! call CreateHeaderFile()<CR>
-map ht :call Toggle()<CR>
+nnoremap <Leader><space> :
+
+nnoremap <Leader>a :Git add %:p<CR><CR>
+nnoremap <Leader>q :set nohls!<CR>
+
+nnoremap <Leader>t :NERDTreeToggle<CR>
+
+nnoremap <Leader>v tH
+nnoremap <Leader>s tK
+
+nnoremap hh ;
+
+
+nnoremap hn :AsyncCommand node bin/www<CR>
+nnoremap ho :call MakeSpace('below')<CR>
+nnoremap hO :call MakeSpace('above')<CR>
+" TODO: Fix these three plugins
+" au FileType c, cpp map hu :silent! call UpdateHeaderFile()<CR>
+" au FileType c, cpp map hc :silent! call CreateHeaderFile()<CR>
+" au FileType c, cpp map ht :call Toggle()<CR>
 nnoremap h; ;
 au FileType vim map hb :call A()<CR>
 au FileType vim nmap hr :w<CR>:source %<CR>
@@ -116,68 +117,6 @@ set softtabstop=4
 set pastetoggle=<F10>
 " Pressing F10 toogles -- INSERT (paste) --
 
-if has("unix")
-    colorscheme  molokai
-    " Sets color of lineno columns same as molokai background
-    hi LineNr ctermbg = 235
-    " All Lines Without Text (New File) now have same color as lines with text
-    hi NonText ctermbg = 235
-endif
-if has("win32")
-    colorscheme molokai
-endif
-
-" set scrolloff=20
-" Ensures that cursor stays at middle of the screen.
-
-set hlsearch
-" Sets the highlight search
-
-au FileType c,cpp map <F9> :w\|!$shell_scripts/build.sh %:r<CR>
-au FileType c,cpp map <F8> :w\|!$shell_scripts/build.sh %:r
-au FileType c,cpp map <F7> :w\|!$shell_scripts/foo.sh %:r<CR>
-au FileType c,cpp set formatoptions-=r
-au FileType c,cpp set formatoptions-=o
-" Build tool for C/C++
-au FileType make set noexpandtab
-" Necessary for make
-
-au FileType python map <F9> :w\|!python %:p<CR>
-" Build tool for Python
-
-au FileType perl map <F9> :w\|!perl %:p<CR>
-" Build tool for Perl
-
-" au FileType markdown map <F9> :w\|!markdown %:p > foo.html\|google-chrome-stable foo.html\| rm foo.html<CR>
-" Build tool for markdown
-
-au BufRead,BufNewFile *.md set filetype=markdown
-au FileType markdown set com=s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,b:-
-au FileType markdown set formatoptions+=o
-au FileType markdown set formatoptions+=r
-
-
-" Plugin to assist in literate programming
-au FileType markdown source $dropbox\vimscripts\insert_three_lines_and_start_in_middle_plugin.vim
-au FileType markdown map ho :call MakeSpace('below')<CR>
-au FileType markdown map hO :call MakeSpace('above')<CR>
-
-au FileType markdown source $dropbox\vimscripts\markdown_code_extractor.vim
-au FileType markdown map hw :call CreateNewSourceFile()<CR>:e#<CR>:execute "normal! 3<C-O>"<CR>
-" au BufRead,BufNewFile *.md set formatoptions+=r
-" Automatically sets syntax highlighting for .md files
-
-au FileType haskell nnoremap hi :call InsertHaskellCommentHeader()<CR>
-
-" JSLint Setup
-if has("win32")
-    let g:syntastic_javascript_jshint_exec = 'C:\Program Files\JSLint\jsl-0.3.0\jsl.exe'
-endif
-let g:syntastic_javascript_checkers = ['jsl']
-
-au BufRead,BufNewFile *.bash* set filetype=sh
-" Sets syntax highlighting for bash_aliases and histor
-
 " hi Normal ctermbg=NONE
 " Makes Vim Transparent
 
@@ -193,6 +132,93 @@ set backspace=indent,eol,start
 " Splits properly
 set splitright
 
+colorscheme  molokai
+
+" set scrolloff=20
+" Ensures that cursor stays at middle of the screen.
+
+" set hlsearch
+" " Sets the highlight search
+
+" FILE SPECIFIC SETTINGS
+
+" FILE SPECIFIC SETTINGS C/C++
+au FileType c,cpp map <F9> :w\|!$shell_scripts/build.sh %:r<CR>
+au FileType c,cpp map <F8> :w\|!$shell_scripts/build.sh %:r
+au FileType c,cpp map <F7> :w\|!$shell_scripts/foo.sh %:r<CR>
+au FileType c,cpp set formatoptions-=r
+au FileType c,cpp set formatoptions-=o
+" Build tool for C/C++
+
+" FILE SPECIFIC SETTINGS MAKE
+" Necessary for make
+au FileType make set noexpandtab
+
+" FILE SPECIFIC SETTINGS PYTHON
+au FileType python map <F9> :w\|!python %:p<CR>
+" Build tool for Python
+
+" FILE SPECIFIC SETTINGS PERL
+au FileType perl map <F9> :w\|!perl %:p<CR>
+" Build tool for Perl
+
+" FILE SPECIFIC SETTINGS MARKDOWN
+au BufRead,BufNewFile *.md set filetype=markdown
+au FileType markdown set com=s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,b:-
+au FileType markdown set formatoptions+=o
+au FileType markdown set formatoptions+=r
+" Plugin to assist in literate programming
+au FileType markdown source $dropbox\vimscripts\markdown_code_extractor.vim
+au FileType markdown map hw :call CreateNewSourceFile()<CR>:e#<CR>:execute "normal! 3<C-O>"<CR>
+" Automatically sets syntax highlighting for .md files
+" au BufRead,BufNewFile *.md set formatoptions+=r
+
+" FILE SPECIFIC SETTINGS HASKELL
+au FileType haskell nnoremap hc :call InsertHaskellCommentHeader()<CR>
+
+" FILE SPECIFIC SETTINGS BASH
+au BufRead,BufNewFile *.bash* set filetype=sh
+" Sets syntax highlighting for bash_aliases and histor
+
+if has("win32")
+
+    " GUI OPTIONS
+    set guioptions-=r
+    set guioptions-=T
+    set guioptions-=L
+    set guifont=Consolas:h11:cANSI
+
+    " JSLint Setup
+    let g:syntastic_javascript_jshint_exec = 'C:\Program Files\JSLint\jsl-0.3.0\jsl.exe'
+    let g:syntastic_javascript_checkers = ['jsl']
+
+    source $dropbox\vimscripts\insert_three_lines_and_start_in_middle_plugin.vim
+
+    " PATH VARIABLES
+    let $dropbox = 'X:\Dropbox'
+    let $vimrc = $dropbox . '\Public\configs\vim\.vimrc'
+    let $haskell = $dropbox . '\haskell'
+    let $configs = $dropbox . '\Public\configs'
+    let $vimsnips = $configs . '\vim\.vim\vim-addons\vim-snippets\snippets'
+    let $spanish = $dropbox . '\js\spanish'
+    let $vimsnips = $configs . '\vim\.vim\vim-addons\vim-snippets\snippets'
+    let $jsnips = $configs . '\vim\.vim\vim-addons\vim-snippets\snippets\javascript'
+endif
+
+if has("unix")
+
+    "PATH VARIABLES
+    let $dropbox = '/media/sf_Dropbox'
+    let $haskell = $dropbox . '/haskell'
+    let $configs = $dropbox . '/Public/configs/'
+    let $vimsnips = $configs . '/vim/.vim/vim-addons/vim-snippets/snippets'
+
+    " COLORSCHEME MOLOKAI SETTINGS
+    " Sets color of lineno columns same as molokai background
+    hi LineNr ctermbg = 235
+    " All Lines Without Text (New File) now have same color as lines with text
+    hi NonText ctermbg = 235
+endif
 
 fun! SetupVAM()
     let c = get(g:, 'vim_addon_manager', {})
@@ -206,7 +232,6 @@ fun! SetupVAM()
       execute '!git clone --depth=1 git://github.com/MarcWeber/vim-addon-manager '
           \       shellescape(c.plugin_root_dir.'/vim-addon-manager', 1)
     endif
-
     " This provides the VAMActivate command, you could be passing plugin names, too
     call vam#ActivateAddons([], {})
 endfun
@@ -227,6 +252,7 @@ if has("unix")
     source $dropbox/vimscripts/header_plugin.vim
     source $dropbox/vimscripts/toggle_plugin.vim
     source $dropbox/vimscripts/install_plugin.vim
+    source $dropbox/vimscripts/insert_three_lines_and_start_in_middle_plugin.vim
 endif
 if has("win32")
     execute 'cd' "C:\\Users\\Toshiba PC\\Desktop"
@@ -259,15 +285,14 @@ endif
 
 
 " ==================VIMSCRIPT FUNCTIONS===============================
-" source $dropbox/vimscripts/header_plugin.vim
-" source $dropbox/vimscripts/toggle_plugin.vim
 function! GetFilePathWithExtension()
-    return expand('%:')
+    return expand('%:p')
 endfunction
 function! InsertHaskellCommentHeader()
     let b:x = '--file: ' . GetFilePathWithExtension() 
     :0put=b:x
     normal! G
+    :startinsert
 endfunction
 function! A()
     let @a=""
