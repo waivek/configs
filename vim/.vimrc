@@ -2,40 +2,39 @@
 " TODO: LOOK AT WINDOWS PLUGINS FOR MORE INFORMATION (JSHINT)
 " put this line first in ~/.vimrc
 set nocompatible | filetype indent plugin on | syn on 
-" Shows commands
-    " set statusline+=%#warningmsg#
-    " set statusline+=%{SyntasticStatuslineFlag()}
-    " set statusline+=%*
-set showcmd
-" Incremental Search
-set incsearch
-"Shows commands
-
-set textwidth=80
-
+execute pathogen#infect()
 " Disables annoying bells in gvim
 set noeb vb t_vb=
+" Disables flashing
+autocmd GUIEnter * set visualbell t_vb=
+
 " Removes right-scrollbar(r) 
 " Removes menu(T) 
 " Removes left-scrollbar (L)
-if has("win32")
-endif
+" " Shows commands
+"     " set statusline+=%#warningmsg#
+"     " set statusline+=%{SyntasticStatuslineFlag()}
+"     " set statusline+=%*
+" set showcmd
+" " Incremental Search
+" set incsearch
+" "Shows commands
+"
+" set textwidth=80
+"
 
-" TODO: Unify paths by making a function that substitues '\' for '/'
-" TODO: and another function to do the opposite.
+" MAPS AND CABBREVS
 
 cabbrev h tab help
 cabbrev help tab help
-
 " TODO: Remove functions. Do purely via {rhs}
-function! HorizontalToVertical()
-    normal! tH
-endfunction
-function! VerticalToHorizontal()
-    normal! tK
-endfunction
 cabbrev h2v :call HorizontalToVertical()<CR>
 cabbrev v2h :call VerticalToHorizontal()<CR>
+
+cabbrev ! AsyncCommand
+
+iabbrev arw ->
+iabbrev eq =
 
 noremap j h
 noremap k j
@@ -141,7 +140,6 @@ colorscheme  molokai
 " " Sets the highlight search
 
 " FILE SPECIFIC SETTINGS
-
 " FILE SPECIFIC SETTINGS C/C++
 au FileType c,cpp map <F9> :w\|!$shell_scripts/build.sh %:r<CR>
 au FileType c,cpp map <F8> :w\|!$shell_scripts/build.sh %:r
@@ -191,27 +189,35 @@ if has("win32")
     " JSLint Setup
     let g:syntastic_javascript_jshint_exec = 'C:\Program Files\JSLint\jsl-0.3.0\jsl.exe'
     let g:syntastic_javascript_checkers = ['jsl']
+endif
 
+
+" PATH VARIABLES
+let $dropbox = 'X:\Dropbox'
+
+if has("unix")
+    let $dropbox = '/media/sf_Dropbox'
+endif
+
+let $vimrc = $dropbox . '\Public\configs\vim\.vimrc'
+let $haskell = $dropbox . '\haskell'
+let $configs = $dropbox . '\Public\configs'
+let $vimsnips = $configs . '\vim\.vim\vim-addons\vim-snippets\snippets'
+let $spanish = $dropbox . '\js\spanish'
+let $vimsnips = $configs . '\vim\.vim\vim-addons\vim-snippets\snippets'
+let $jsnips = $configs . '\vim\.vim\vim-addons\vim-snippets\snippets\javascript'
+let $desktop = 'C:\Users\Toshiba PC\Desktop'
+
+if has("win32")
     source $dropbox\vimscripts\insert_three_lines_and_start_in_middle_plugin.vim
-
-    " PATH VARIABLES
-    let $dropbox = 'X:\Dropbox'
-    let $vimrc = $dropbox . '\Public\configs\vim\.vimrc'
-    let $haskell = $dropbox . '\haskell'
-    let $configs = $dropbox . '\Public\configs'
-    let $vimsnips = $configs . '\vim\.vim\vim-addons\vim-snippets\snippets'
-    let $spanish = $dropbox . '\js\spanish'
-    let $vimsnips = $configs . '\vim\.vim\vim-addons\vim-snippets\snippets'
-    let $jsnips = $configs . '\vim\.vim\vim-addons\vim-snippets\snippets\javascript'
 endif
 
 if has("unix")
 
     "PATH VARIABLES
-    let $dropbox = '/media/sf_Dropbox'
-    let $haskell = $dropbox . '/haskell'
-    let $configs = $dropbox . '/Public/configs/'
-    let $vimsnips = $configs . '/vim/.vim/vim-addons/vim-snippets/snippets'
+    let $haskell = ConvertWin32ToUnix($haskell)
+    let $configs = ConvertWin32ToUnix($configs)
+    let $vimsnips = ConvertWin32ToUnix($vimsnips)
 
     " COLORSCHEME MOLOKAI SETTINGS
     " Sets color of lineno columns same as molokai background
@@ -220,34 +226,7 @@ if has("unix")
     hi NonText ctermbg = 235
 endif
 
-fun! SetupVAM()
-    let c = get(g:, 'vim_addon_manager', {})
-    let g:vim_addon_manager = c
-    let c.plugin_root_dir = expand('$HOME', 1) . '/.vim/vim-addons'
-    " most used options you may want to use:
-    " let c.log_to_buf = 1
-    " let c.auto_install = 0
-    let &rtp.=(empty(&rtp)?'':',').c.plugin_root_dir.'/vim-addon-manager'
-    if !isdirectory(c.plugin_root_dir.'/vim-addon-manager/autoload')
-      execute '!git clone --depth=1 git://github.com/MarcWeber/vim-addon-manager '
-          \       shellescape(c.plugin_root_dir.'/vim-addon-manager', 1)
-    endif
-    " This provides the VAMActivate command, you could be passing plugin names, too
-    call vam#ActivateAddons([], {})
-endfun
-
 if has("unix")
-    call SetupVAM()
-    VAMActivate vim-snippets 
-    VAMActivate snipmate 
-    VAMActivate tComment 
-    VAMActivate EasyMotion
-    VAMActivate The_NERD_tree
-    VAMActivate Syntastic
-    VAMActivate unite
-    VAMActivate fugitive
-    VAMActivate markdown@tpope
-    VAMActivate AsyncCommand
 " ==================VIMSCRIPT FUNCTIONS===============================
     source $dropbox/vimscripts/header_plugin.vim
     source $dropbox/vimscripts/toggle_plugin.vim
@@ -255,31 +234,9 @@ if has("unix")
     source $dropbox/vimscripts/insert_three_lines_and_start_in_middle_plugin.vim
 endif
 if has("win32")
-    execute 'cd' "C:\\Users\\Toshiba PC\\Desktop"
-    let g:vim_addon_manager = {}
-    " for windows users, see 
-    " https://github.com/MarcWeber/vim-addon-manager/issues/111
-    fun! MyPluginDirFromName(name)
-      let dir = vam#DefaultPluginDirFromName(a:name)
-      return substitute(dir,'%','_', 'g')
-    endf
-    let g:vim_addon_manager['plugin_dir_by_name'] = 'MyPluginDirFromName'
-    " use either windows or linux location - whichever exists
-    exec 'set runtimepath+='.filter([$HOME.'\.vim', $HOME.'\vimfiles'],'isdirectory(v:val)')[0].'\vim-addons\vim-addon-manager'
-    exec 'set runtimepath+=$HOME'
-    call vam#ActivateAddons(["EasyMotion"], {'auto_install' : 1})
-    call vam#ActivateAddons(["tComment"], {'auto_install' : 1})
-    call vam#ActivateAddons(["vim-snippets"], {'auto_install' : 1})
-    call vam#ActivateAddons(["vim-snippets"], {'auto_install' : 1})
-    call vam#ActivateAddons(["snipmate"], {'auto_install' : 1})
-    call vam#ActivateAddons(["tComment"], {'auto_install' : 1})
-    call vam#ActivateAddons(["EasyMotion"], {'auto_install' : 1})
-    call vam#ActivateAddons(["The_NERD_tree"], {'auto_install' : 1})
-    call vam#ActivateAddons(["Syntastic"], {'auto_install' : 1})
-    call vam#ActivateAddons(["unite"], {'auto_install' : 1})
-    call vam#ActivateAddons(["fugitive"], {'auto_install' : 1})
-    call vam#ActivateAddons(["markdown@tpope"], {'auto_install' : 1})
-    call vam#ActivateAddons(["AsyncCommand"], {'auto_install' : 1})
+    " call vam#ActivateAddons(["vim-snippets"], {'auto_install' : 1})
+    " call vam#ActivateAddons(["snipmate"], {'auto_install' : 1})
+    " call vam#ActivateAddons(["vim-airline"], {'auto_install' : 1})
 
 endif
 
@@ -312,4 +269,27 @@ function! B()
     :g/^ *$/d
     :sort i
 endfunction
-    
+
+function! HorizontalToVertical()
+    normal! tH
+endfunction
+function! VerticalToHorizontal()
+    normal! tK
+endfunction
+
+function! ConvertWin32ToUnix(path)
+    return BackSlashToForwardSlash(a:path)
+endfunction
+
+function! BackSlashToForwardSlash(path)
+    return substitute(a:path, '\', '/', "g")
+endfunction
+
+function! ConvertUnixToWin32(path)
+    return ForwardSlashToBackSlash(a:path)
+endfunction
+
+function! ForwardSlashToBackSlash(path)
+    return substitute(a:path, '/', '\', "g")
+endfunction
+
