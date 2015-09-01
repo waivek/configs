@@ -3,25 +3,37 @@
 " put this line first in ~/.vimrc
 set nocompatible | filetype indent plugin on | syn on 
 execute pathogen#infect()
+
+" === VIM-AIRLINE SETTINGS : START ===
+"URL = http://www.4thinker.com/vim-airline.html
+
+" Necessary for vim-ariline to show in normal window
+" Otherwise it shows only when we do a split
+set laststatus=2
+
+" Shows buffers in tab
+" Tabline works when only single tab
+let g:airline#extensions#tabline#enabled = 1
+" Need to add thesee two to display glyphs properly in vim-airline
+let g:airline_powerline_fonts = 1
+set encoding=utf-8
+" Otherwise there is a warning of trailing characters
+" in the bottom left corner
+let g:airline#extensions#whitespace#enabled = 0
+
+" === VIM-AIRLINE SETTINGS : END ===
+
 " Disables annoying bells in gvim
 set noeb vb t_vb=
 " Disables flashing
 autocmd GUIEnter * set visualbell t_vb=
 
-" Removes right-scrollbar(r) 
-" Removes menu(T) 
-" Removes left-scrollbar (L)
-" " Shows commands
-"     " set statusline+=%#warningmsg#
-"     " set statusline+=%{SyntasticStatuslineFlag()}
-"     " set statusline+=%*
-" set showcmd
-" " Incremental Search
-" set incsearch
-" "Shows commands
-"
-" set textwidth=80
-"
+" Incremental Search
+set incsearch
+" Shows commands
+
+set textwidth=80
+
 
 " MAPS AND CABBREVS
 
@@ -53,7 +65,7 @@ nnoremap <Leader>o <C-W>o
 nnoremap <Leader>c <C-W>c
 nnoremap <Leader>x <C-W>x
 
-nnoremap <Leader>N :bN<CR>
+nnoremap <Leader>p :bN<CR>
 nnoremap <Leader>n :bn<CR>
 nnoremap <Leader>d :bd<CR>
 
@@ -181,10 +193,16 @@ au BufRead,BufNewFile *.bash* set filetype=sh
 if has("win32")
 
     " GUI OPTIONS
+    " Removes right-scrollbar(r) 
+    " Removes menu(T) 
+    " Removes left-scrollbar (L)
     set guioptions-=r
     set guioptions-=T
     set guioptions-=L
-    set guifont=Consolas:h11:cANSI
+
+    " GUI Font
+    " Changed from vanilla consolas to display arrows in vim-airline
+    set guifont=Powerline_Consolas:h11:cANSI
 
     " JSLint Setup
     let g:syntastic_javascript_jshint_exec = 'C:\Program Files\JSLint\jsl-0.3.0\jsl.exe'
@@ -292,4 +310,3 @@ endfunction
 function! ForwardSlashToBackSlash(path)
     return substitute(a:path, '/', '\', "g")
 endfunction
-
