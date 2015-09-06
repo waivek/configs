@@ -1,11 +1,55 @@
 " TODO: Install vim with python support
 " TODO: LOOK AT WINDOWS PLUGINS FOR MORE INFORMATION (JSHINT)
 " put this line first in ~/.vimrc
-set nocompatible | filetype indent plugin on | syn on 
-execute pathogen#infect()
 
+" TODO: Find out how to load UltiSnips
+" === VAM ===
+" set nocompatible
+" filetype indent plugin on | syn on
+" set hidden
+" 
+" let g:vim_addon_manager = {}
+" 
+" 
+" 
+"   " for windows users, see https://github.com/MarcWeber/vim-addon-manager/issues/111
+"   fun MyPluginDirFromName(name)
+"     let dir = vam#DefaultPluginDirFromName(a:name)
+"     return substitute(dir,'%','_', 'g')
+"   endf
+"   let g:vim_addon_manager['plugin_dir_by_name'] = 'MyPluginDirFromName'
+" 
+" 
+" " use either windows or linux location - whichever exists
+" exec 'set runtimepath+='.filter([$HOME.'/.vim', $HOME.'/vimfiles'],'isdirectory(v:val)')[0].'/vim-addons/vim-addon-manager'
+" call vam#ActivateAddons(["UltiSnips"], {'auto_install' : 1})
+" === VAM ===
+" === VUNDLE ===
+set nocompatible
+filetype off
+set rtp+=X:\Dropbox\Public\configs\vim\.vim\bundle\Vundle.vim
+call vundle#begin()
+
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'tomtom/tcomment_vim'
+Plugin 'scrooloose/syntastic'
+Plugin 'idbrise/AsyncCommand'
+Plugin 'tpope/vim-fugitive'
+Plugin 'bling/vim-airline'
+" " Plugin 'SirVer/ultisnips'
+call vundle#end()
+" ==== VUNDLE END ===
+
+
+
+set nocompatible | filetype indent plugin on | syn on 
 " === VIM-AIRLINE SETTINGS : START ===
 "URL = http://www.4thinker.com/vim-airline.html
+
+" === PATHOGEN ===
+" execute pathogen#infect()
+" === END PATHOGEN ===
 
 " Necessary for vim-ariline to show in normal window
 " Otherwise it shows only when we do a split
@@ -20,13 +64,12 @@ set encoding=utf-8
 " Otherwise there is a warning of trailing characters
 " in the bottom left corner
 let g:airline#extensions#whitespace#enabled = 0
+let g:airline_theme = 'powerlineish'
 
 " === VIM-AIRLINE SETTINGS : END ===
 
-" Disables annoying bells in gvim
-set noeb vb t_vb=
-" Disables flashing
-autocmd GUIEnter * set visualbell t_vb=
+" Disables word wrap
+set nowrap
 
 " Incremental Search
 set incsearch
@@ -53,9 +96,17 @@ noremap k j
 noremap l k
 noremap ; l
 
+" Faster scrolling
+nnoremap <C-e> 3<C-e>
+nnoremap <C-y> 3<C-y>
+
 " Same as let mapleader = " " but space shows in showcmd
 map <space> <Leader>
 " let mapleader = " "
+
+nnoremap <Leader>s :bn<CR>
+nnoremap <Leader>a :bp<CR>
+nnoremap <Leader>d :bd<CR>
 
 nnoremap <Leader>j <C-W>h
 nnoremap <Leader>k <C-W>j
@@ -65,9 +116,6 @@ nnoremap <Leader>o <C-W>o
 nnoremap <Leader>c <C-W>c
 nnoremap <Leader>x <C-W>x
 
-nnoremap <Leader>p :bN<CR>
-nnoremap <Leader>n :bn<CR>
-nnoremap <Leader>d :bd<CR>
 
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>e :e#<CR>
@@ -76,13 +124,10 @@ nnoremap <Leader>h :cd %:h<CR>
 
 nnoremap <Leader><space> :
 
-nnoremap <Leader>a :Git add %:p<CR><CR>
 nnoremap <Leader>q :set nohls!<CR>
 
 nnoremap <Leader>t :NERDTreeToggle<CR>
-
-nnoremap <Leader>v tH
-nnoremap <Leader>s tK
+nnoremap <Leader>m :CtrlPMRU<CR>
 
 nnoremap hh ;
 
@@ -134,8 +179,15 @@ set pastetoggle=<F10>
 set relativenumber
 " Sets relative line numbers
 
-set backupdir=~/.vim/vimtmp,.
-set directory=~/.vim/vimtmp,.
+if has("unix")
+    set backupdir=~/.vim/vimtmp,.
+    set directory=~/.vim/vimtmp,.
+endif
+
+if has("win32")
+    set backupdir=~/vimfiles/vimtmp,.
+    set directory=~/vimfiles/vimtmp,.
+endif
 
 " Fixes backspace inside insert mode
 set backspace=indent,eol,start
@@ -196,9 +248,19 @@ if has("win32")
     " Removes right-scrollbar(r) 
     " Removes menu(T) 
     " Removes left-scrollbar (L)
+    " Removes above menubar (m)
     set guioptions-=r
     set guioptions-=T
     set guioptions-=L
+    set guioptions-=m
+
+    " Disables annoying bells in gvim
+    set noeb vb t_vb=
+    " Disables flashing
+    autocmd GUIEnter * set visualbell t_vb=
+
+    " Sets initial vim window size
+    set columns=84
 
     " GUI Font
     " Changed from vanilla consolas to display arrows in vim-airline
