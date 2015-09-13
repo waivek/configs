@@ -1,29 +1,6 @@
-" TODO: Install vim with python support
 " TODO: LOOK AT WINDOWS PLUGINS FOR MORE INFORMATION (JSHINT)
 " put this line first in ~/.vimrc
 
-" TODO: Find out how to load UltiSnips
-" === VAM ===
-" set nocompatible
-" filetype indent plugin on | syn on
-" set hidden
-" 
-" let g:vim_addon_manager = {}
-" 
-" 
-" 
-"   " for windows users, see https://github.com/MarcWeber/vim-addon-manager/issues/111
-"   fun MyPluginDirFromName(name)
-"     let dir = vam#DefaultPluginDirFromName(a:name)
-"     return substitute(dir,'%','_', 'g')
-"   endf
-"   let g:vim_addon_manager['plugin_dir_by_name'] = 'MyPluginDirFromName'
-" 
-" 
-" " use either windows or linux location - whichever exists
-" exec 'set runtimepath+='.filter([$HOME.'/.vim', $HOME.'/vimfiles'],'isdirectory(v:val)')[0].'/vim-addons/vim-addon-manager'
-" call vam#ActivateAddons(["UltiSnips"], {'auto_install' : 1})
-" === VAM ===
 " === VUNDLE ===
 set nocompatible
 filetype off
@@ -37,7 +14,11 @@ Plugin 'scrooloose/syntastic'
 Plugin 'idbrise/AsyncCommand'
 Plugin 'tpope/vim-fugitive'
 Plugin 'bling/vim-airline'
-" " Plugin 'SirVer/ultisnips'
+Plugin 'vim-scripts/renamer.vim'
+Plugin 'kien/ctrlp.vim'
+Plugin 'tpope/vim-surround'
+Plugin 'SirVer/ultisnips'
+Plugin 'jaxbot/browserlink.vim'
 call vundle#end()
 " ==== VUNDLE END ===
 
@@ -80,8 +61,6 @@ set textwidth=80
 
 " MAPS AND CABBREVS
 
-cabbrev h tab help
-cabbrev help tab help
 " TODO: Remove functions. Do purely via {rhs}
 cabbrev h2v :call HorizontalToVertical()<CR>
 cabbrev v2h :call VerticalToHorizontal()<CR>
@@ -179,14 +158,15 @@ set pastetoggle=<F10>
 set relativenumber
 " Sets relative line numbers
 
+
 if has("unix")
     set backupdir=~/.vim/vimtmp,.
     set directory=~/.vim/vimtmp,.
 endif
 
 if has("win32")
-    set backupdir=~/vimfiles/vimtmp,.
-    set directory=~/vimfiles/vimtmp,.
+    set backupdir=~\vimfiles\vimtmp,.
+    set directory=~\vimfiles\vimtmp,.
 endif
 
 " Fixes backspace inside insert mode
@@ -287,6 +267,14 @@ let $spanish = $dropbox . '\js\spanish'
 let $vimsnips = $configs . '\vim\.vim\vim-addons\vim-snippets\snippets'
 let $jsnips = $configs . '\vim\.vim\vim-addons\vim-snippets\snippets\javascript'
 let $desktop = 'C:\Users\Toshiba PC\Desktop'
+
+" This is neccessary for plugins that use python
+" If this is not set then plugins such as UltiSnips and BrowserLink
+" will crash whenever they are called
+" In the case of UltiSnips it is during <TAB>
+" In the case of BrowserLink it is when we open an HTML, CSS or JS file
+let $pythonhome = 'C:\Python27'
+
 
 if has("win32")
     source $dropbox\vimscripts\insert_three_lines_and_start_in_middle_plugin.vim
