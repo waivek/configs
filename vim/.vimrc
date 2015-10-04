@@ -11,7 +11,6 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'scrooloose/syntastic'
-Plugin 'idbrise/AsyncCommand'
 Plugin 'tpope/vim-fugitive'
 Plugin 'bling/vim-airline'
 Plugin 'vim-scripts/renamer.vim'
@@ -19,23 +18,20 @@ Plugin 'kien/ctrlp.vim'
 Plugin 'tpope/vim-surround'
 Plugin 'SirVer/ultisnips'
 Plugin 'jaxbot/browserlink.vim'
+Plugin 'idbrii/AsyncCommand'
+" Breaks ^X mode
+" Plugin 'vim-scripts/vim-auto-save'
+Plugin 'elzr/vim-json'
+Plugin 'morhetz/gruvbox'
 call vundle#end()
 " ==== VUNDLE END ===
-
-
 
 set nocompatible | filetype indent plugin on | syn on 
 " === VIM-AIRLINE SETTINGS : START ===
 "URL = http://www.4thinker.com/vim-airline.html
-
-" === PATHOGEN ===
-" execute pathogen#infect()
-" === END PATHOGEN ===
-
 " Necessary for vim-ariline to show in normal window
 " Otherwise it shows only when we do a split
 set laststatus=2
-
 " Shows buffers in tab
 " Tabline works when only single tab
 let g:airline#extensions#tabline#enabled = 1
@@ -46,29 +42,45 @@ set encoding=utf-8
 " in the bottom left corner
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline_theme = 'powerlineish'
-
 " === VIM-AIRLINE SETTINGS : END ===
 
-" Disables word wrap
+" === COLORSCHEME SPECIFIC SETTINGS AND FUNCTIONS ===
+colorscheme  molokai
+function! Colorscheme(colorscheme, background_color, airline_theme)
+    execute "colorscheme " . a:colorscheme
+    execute "set background=". a:background_color
+    execute "AirlineTheme " . a:airline_theme
+endfunction
+function! ToggleColorscheme()
+    if g:colors_name == "molokai"
+        call Colorscheme("gruvbox", "light", "gruvbox")
+    else
+        call Colorscheme("molokai", "dark", "powerlineish")
+    endif
+endfunction
+" === END : COLORSCHEME SPECIFIC SETTINGS AND FUNCTIONS ===
+
 set nowrap
-
-" Incremental Search
 set incsearch
-" Shows commands
-
 set textwidth=80
-
-
 " MAPS AND CABBREVS
 
-" TODO: Remove functions. Do purely via {rhs}
-cabbrev h2v :call HorizontalToVertical()<CR>
-cabbrev v2h :call VerticalToHorizontal()<CR>
-
+cabbrev h2v windo wincmd H
+cabbrev v2h windo wincmd K
 cabbrev ! AsyncCommand
+cabbrev tc :call ToggleColorscheme()<CR>
 
 iabbrev arw ->
 iabbrev eq =
+
+function! DiscourageEscape()
+    echom "DON'T USE DON'T USE DON'T USE DON'T USE DON'T USE DON'T USE DON'T USE DON'T USE "
+    stopinsert
+endfunction
+
+" For exiting INSERT mode 
+inoremap jk 
+inoremap  <C-o>:call DiscourageEscape()<CR>
 
 noremap j h
 noremap k j
@@ -95,7 +107,6 @@ nnoremap <Leader>o <C-W>o
 nnoremap <Leader>c <C-W>c
 nnoremap <Leader>x <C-W>x
 
-
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>e :e#<CR>
 
@@ -108,122 +119,63 @@ nnoremap <Leader>q :set nohls!<CR>
 nnoremap <Leader>t :NERDTreeToggle<CR>
 nnoremap <Leader>m :CtrlPMRU<CR>
 
+" Move visual block
+vnoremap K :m '>+1<CR>gv=gv
+vnoremap L :m '<-2<CR>gv=gv
+
+" Keeps searches on center of the screen
+nnoremap n nzz
+nnoremap N Nzz
+
+" Use Arrow Keys to resize windows
+noremap <up>    <C-W>+
+noremap <down>  <C-W>-
+noremap <left>  3<C-W><
+noremap <right> 3<C-W>>
+
 nnoremap hh ;
-
-
-nnoremap hn :AsyncCommand node bin/www<CR>
+nnoremap hn :AsyncCommand START "Flashcard Server" node X:\Dropbox\js\spanish\bin\www<CR>
+nnoremap hs :AsyncCommand C:\HOME\vimfiles\bundle\browserlink.vim\browserlink\start.bat<CR>
 nnoremap ho :call MakeSpace('below')<CR>
 nnoremap hO :call MakeSpace('above')<CR>
-" TODO: Fix these three plugins
-" au FileType c, cpp map hu :silent! call UpdateHeaderFile()<CR>
-" au FileType c, cpp map hc :silent! call CreateHeaderFile()<CR>
-" au FileType c, cpp map ht :call Toggle()<CR>
 nnoremap h; ;
-au FileType vim map hb :call A()<CR>
-au FileType vim nmap hr :w<CR>:source %<CR>
-au FileType c,cpp map hb <F7>
 
 syntax on
 set number
-autocmd InsertEnter,InsertLeave * set cul!
-" Adds a long line to indicate -- INSERT -- mode
-
 " Sauce - http://www.vex.net/~x/python_and_vim.html
 set smartindent
 " Automatically indents when and where required
-
 set tabstop=4
 " Sets tab width to 4 (Prefered for Python)
-
 set shiftwidth=4
 " Allows you to use < and > keys in -- VISUAL -- mode for indenting
 " and unindenting 
-
 set expandtab
 " Inserts 4 spaces when <TAB> is pressed
-
 set softtabstop=4
 " Makes vim see four spaces as a <TAB>
-
-" im :<CR> :<CR><TAB>
-" Detects when you type a colon and press enter. Indents next line
-" This is for Python
-
-set pastetoggle=<F10>
-" Pressing F10 toogles -- INSERT (paste) --
-
-" hi Normal ctermbg=NONE
-" Makes Vim Transparent
-
 set relativenumber
 " Sets relative line numbers
-
+" Fixes backspace inside insert mode
+set backspace=indent,eol,start
+" Splits properly
+set splitright
 
 if has("unix")
     set backupdir=~/.vim/vimtmp,.
     set directory=~/.vim/vimtmp,.
 endif
-
 if has("win32")
     set backupdir=~\vimfiles\vimtmp,.
     set directory=~\vimfiles\vimtmp,.
 endif
-
-" Fixes backspace inside insert mode
-set backspace=indent,eol,start
-
-" Splits properly
-set splitright
-
-colorscheme  molokai
-
-" set scrolloff=20
-" Ensures that cursor stays at middle of the screen.
-
-" set hlsearch
-" " Sets the highlight search
-
 " FILE SPECIFIC SETTINGS
-" FILE SPECIFIC SETTINGS C/C++
-au FileType c,cpp map <F9> :w\|!$shell_scripts/build.sh %:r<CR>
-au FileType c,cpp map <F8> :w\|!$shell_scripts/build.sh %:r
-au FileType c,cpp map <F7> :w\|!$shell_scripts/foo.sh %:r<CR>
-au FileType c,cpp set formatoptions-=r
-au FileType c,cpp set formatoptions-=o
-" Build tool for C/C++
-
-" FILE SPECIFIC SETTINGS MAKE
-" Necessary for make
-au FileType make set noexpandtab
-
-" FILE SPECIFIC SETTINGS PYTHON
-au FileType python map <F9> :w\|!python %:p<CR>
-" Build tool for Python
-
-" FILE SPECIFIC SETTINGS PERL
-au FileType perl map <F9> :w\|!perl %:p<CR>
-" Build tool for Perl
-
-" FILE SPECIFIC SETTINGS MARKDOWN
 au BufRead,BufNewFile *.md set filetype=markdown
-au FileType markdown set com=s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,b:-
-au FileType markdown set formatoptions+=o
-au FileType markdown set formatoptions+=r
-" Plugin to assist in literate programming
-au FileType markdown source $dropbox\vimscripts\markdown_code_extractor.vim
-au FileType markdown map hw :call CreateNewSourceFile()<CR>:e#<CR>:execute "normal! 3<C-O>"<CR>
-" Automatically sets syntax highlighting for .md files
-" au BufRead,BufNewFile *.md set formatoptions+=r
-
-" FILE SPECIFIC SETTINGS HASKELL
-au FileType haskell nnoremap hc :call InsertHaskellCommentHeader()<CR>
-
 " FILE SPECIFIC SETTINGS BASH
 au BufRead,BufNewFile *.bash* set filetype=sh
 " Sets syntax highlighting for bash_aliases and histor
 
 if has("win32")
-
     " GUI OPTIONS
     " Removes right-scrollbar(r) 
     " Removes menu(T) 
@@ -233,24 +185,21 @@ if has("win32")
     set guioptions-=T
     set guioptions-=L
     set guioptions-=m
-
     " Disables annoying bells in gvim
     set noeb vb t_vb=
     " Disables flashing
     autocmd GUIEnter * set visualbell t_vb=
-
     " Sets initial vim window size
     set columns=84
-
     " GUI Font
     " Changed from vanilla consolas to display arrows in vim-airline
     set guifont=Powerline_Consolas:h11:cANSI
-
     " JSLint Setup
     let g:syntastic_javascript_jshint_exec = 'C:\Program Files\JSLint\jsl-0.3.0\jsl.exe'
     let g:syntastic_javascript_checkers = ['jsl']
+    "JSONLint setup
+    let g:syntastic_json_checkers=['jsonlint']
 endif
-
 
 " PATH VARIABLES
 let $dropbox = 'X:\Dropbox'
@@ -267,7 +216,6 @@ let $spanish = $dropbox . '\js\spanish'
 let $vimsnips = $configs . '\vim\.vim\vim-addons\vim-snippets\snippets'
 let $jsnips = $configs . '\vim\.vim\vim-addons\vim-snippets\snippets\javascript'
 let $desktop = 'C:\Users\Toshiba PC\Desktop'
-
 " This is neccessary for plugins that use python
 " If this is not set then plugins such as UltiSnips and BrowserLink
 " will crash whenever they are called
@@ -275,18 +223,15 @@ let $desktop = 'C:\Users\Toshiba PC\Desktop'
 " In the case of BrowserLink it is when we open an HTML, CSS or JS file
 let $pythonhome = 'C:\Python27'
 
-
 if has("win32")
     source $dropbox\vimscripts\insert_three_lines_and_start_in_middle_plugin.vim
+    source $dropbox\vimscripts\environment_variable_converter.vim
 endif
-
 if has("unix")
-
     "PATH VARIABLES
     let $haskell = ConvertWin32ToUnix($haskell)
     let $configs = ConvertWin32ToUnix($configs)
     let $vimsnips = ConvertWin32ToUnix($vimsnips)
-
     " COLORSCHEME MOLOKAI SETTINGS
     " Sets color of lineno columns same as molokai background
     hi LineNr ctermbg = 235
@@ -295,37 +240,12 @@ if has("unix")
 endif
 
 if has("unix")
-" ==================VIMSCRIPT FUNCTIONS===============================
     source $dropbox/vimscripts/header_plugin.vim
     source $dropbox/vimscripts/toggle_plugin.vim
     source $dropbox/vimscripts/install_plugin.vim
     source $dropbox/vimscripts/insert_three_lines_and_start_in_middle_plugin.vim
 endif
-if has("win32")
-    " call vam#ActivateAddons(["vim-snippets"], {'auto_install' : 1})
-    " call vam#ActivateAddons(["snipmate"], {'auto_install' : 1})
-    " call vam#ActivateAddons(["vim-airline"], {'auto_install' : 1})
 
-endif
-
-
-" ==================VIMSCRIPT FUNCTIONS===============================
-function! GetFilePathWithExtension()
-    return expand('%:p')
-endfunction
-function! InsertHaskellCommentHeader()
-    let b:x = '--file: ' . GetFilePathWithExtension() 
-    :0put=b:x
-    normal! G
-    :startinsert
-endfunction
-function! A()
-    let @a=""
-    normal! 2o
-    normal! "ayy
-    normal! P
-    :startinsert
-endfunction
 function! B()
     let @a=""
     :g/Leader>/y A
@@ -336,27 +256,4 @@ function! B()
     :%s/\(.*>\)\(.\)\(.*\)/\2
     :g/^ *$/d
     :sort i
-endfunction
-
-function! HorizontalToVertical()
-    normal! tH
-endfunction
-function! VerticalToHorizontal()
-    normal! tK
-endfunction
-
-function! ConvertWin32ToUnix(path)
-    return BackSlashToForwardSlash(a:path)
-endfunction
-
-function! BackSlashToForwardSlash(path)
-    return substitute(a:path, '\', '/', "g")
-endfunction
-
-function! ConvertUnixToWin32(path)
-    return ForwardSlashToBackSlash(a:path)
-endfunction
-
-function! ForwardSlashToBackSlash(path)
-    return substitute(a:path, '/', '\', "g")
 endfunction
