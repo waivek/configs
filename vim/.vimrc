@@ -22,6 +22,7 @@ Plugin 'vim-scripts/renamer.vim'
 Plugin 'SirVer/ultisnips'        
 Plugin 'godlygeek/tabular'       
 
+" JAVSCRIPT SPECIFIC PLUGIN
 Plugin 'jaxbot/browserlink.vim'
 Plugin 'vim-scripts/vim-auto-save'
 Plugin 'elzr/vim-json'
@@ -37,6 +38,10 @@ Plugin 'terryma/vim-multiple-cursors'
 Plugin 'justinmk/vim-sneak'
 Plugin 'othree/eregex.vim'
 Plugin 'zirrostig/vim-schlepp'
+Plugin 'junegunn/vim-easy-align'
+Plugin 'osyo-manga/vim-over'
+Plugin 'bps/vim-textobj-python'
+Plugin 'michaeljsmith/vim-indent-object'
 call vundle#end()
 
 set nocompatible | filetype indent plugin on | syn on 
@@ -62,13 +67,15 @@ let g:airline_theme = 'powerlineish'
 " temp fix - https://github.com/907th/vim-auto-save/issues/18#issuecomment-145367360
 let g:auto_save_in_insert_mode = 0
 
-
 let g:UltiSnipsJumpForwardTrigger = "<C-k>"
 let g:UltiSnipsJumpBackwardTrigger = "<C-l>"
 
 let delimitMate_expand_cr = 1
 let delimitMate_expand_space=1
 let delimitMate_jump_expansion = 1
+
+let g:multi_cursor_exit_from_insert_mode = 0
+let g:eregex_default_enable = 0
 
 if has("win32")
     source $HOME\vimfiles\autoload\pathConverter.vim
@@ -92,29 +99,42 @@ if has("unix")
     source $HOME/.vim/autoload/noEsc.vim
     source $HOME/.vim/autoload/toggleColor.vim
 endif
+
 colorscheme  molokai
-"
-" To make CTRL-A work on 07
-set nrformats-=octal
 
-set ignorecase  smartcase  
-set nohlsearch incsearch
+let $dropbox = 'X:\Dropbox'
+if has("unix")
+    let $dropbox = '/media/common/Dropbox'
+endif
+let $vimrc = $dropbox . '\Public\configs\vim\.vimrc'
+let $haskell = $dropbox . '\haskell'
+let $configs = $dropbox . '\Public\configs\vim'
+let $vimsnips = $configs . '\vim\.vim\vim-addons\vim-snippets\snippets'
+let $spanish = $dropbox . '\js\spanish'
+let $desktop = 'C:\Users\Toshiba PC\Desktop'
+" Necessary for plugins requiring python
+let $pythonhome = 'C:\Python27'
+if has("unix")
+    let $vimrc = ConvertWin32ToUnix($vimrc)
+    let $haskell = ConvertWin32ToUnix($haskell)
+    let $configs = ConvertWin32ToUnix($configs)
+    let $vimsnips = ConvertWin32ToUnix($vimsnips)
+    let $spanish = ConvertWin32ToUnix($spanish)
+    let $shell_scripts = $dropbox . '/sh'
+endif
 
-set autochdir
-set nowrap
-set textwidth=80
+if has("unix")
+    set backupdir=~/.vim/vimtmp,.
+    set directory=~/.vim/vimtmp,.
+endif
+if has("win32")
+    set backupdir=~\vimfiles\vimtmp,.
+    set directory=~\vimfiles\vimtmp,.
+endif
 
 if has("nvim")
-    function! HorizontalTerminal()
-        sp
-        term
-    endfunction
-    cabbrev sterm :call HorizontalTerminal()
-    function! VerticalTerminal()
-        vs
-        term
-    endfunction
-    cabbrev vterm :call VerticalTerminal()
+    " Prevents terminal buffer from being deleted once it's window closes
+    autocmd TermOpen * set hidden
 endif
 
 if has("nvim")
@@ -128,19 +148,31 @@ if has("nvim")
 endif
 " noremap  
 inoremap jk 
-vnoremap jk 
+xnoremap jk 
 
 " https://www.reddit.com/r/vim/comments/3n97ug/its_been_a_long_while_since_ive_discovered/cvm0y66
 inoremap <expr> <c-y> pumvisible() ? "\<c-y>" : matchstr(getline(line('.')-1), '\%' . virtcol('.') . 'v\%(\k\+\\|.\)')
 inoremap <expr> <c-e> pumvisible() ? "\<c-e>" : matchstr(getline(line('.')+1), '\%' . virtcol('.') . 'v\%(\k\+\\|.\)')
 
-noremap j h
-noremap k gj
-noremap l gk
-noremap ; l
+nnoremap j h
+nnoremap k gj
+nnoremap l gk
+nnoremap ; l
+onoremap j h
+onoremap k gj
+onoremap l gk
+onoremap ; l
+xnoremap j h
+xnoremap k gj
+xnoremap l gk
+xnoremap ; l
 
-noremap gk gj
-noremap gl gk
+nnoremap gk gj
+nnoremap gl gk
+onoremap gk gj
+onoremap gl gk
+xnoremap gk gj
+xnoremap gl gk
 
 nnoremap <C-w>j <C-w>h
 nnoremap <C-w>k <C-w>j
@@ -159,11 +191,46 @@ nnoremap <C-w>: <C-w>L
 
 nnoremap cm :CtrlPMRUFiles<CR>
 
+nnoremap <S-Tab> <C-o>
+
 nnoremap <C-TAB> :bn<CR>
 nnoremap <C-S-TAB> :bp<CR>
 
+nnoremap cd :silent! :!cmd .<CR>
+nnoremap g/ :1M/
+
+nnoremap h "+
+xnoremap h "+
+
+nnoremap , ;
+xnoremap , ;
+
+xmap <silent> K <Plug>SchleppIndentDown
+xmap <silent> <silent> L <Plug>SchleppIndentUp
+
+xmap <silent> <Left> <Plug>SchleppLeft
+xmap <silent> <Right> <Plug>SchleppRight
+nnoremap <BS> :set hls!<CR>
+
+nmap s <Plug>(SneakStreak)
+nmap S <Plug>(SneakStreakBackward)
+xmap s <Plug>(SneakStreak)
+
+cnoremap <C-l> <Up>
+cnoremap <C-k> <Down>
+
+" To make CTRL-A work on 07
+set nrformats-=octal
+set ignorecase  smartcase  
+set nohlsearch incsearch
+set autochdir
+set wrap
+" set textwidth=80
+
 syntax on
+
 set number
+
 " Automatically indents when and where required
 set smartindent
 " Sets tab width to 4 
@@ -175,24 +242,17 @@ set expandtab
 " Makes vim see four spaces as a <TAB>
 set softtabstop=4
 " Sets relative line numbers
+
 set relativenumber
 " Fixes backspace inside insert mode
 set backspace=indent,eol,start
 " Splits properly
 set splitright
 
-if has("unix")
-    set backupdir=~/.vim/vimtmp,.
-    set directory=~/.vim/vimtmp,.
-endif
-if has("win32")
-    set backupdir=~\vimfiles\vimtmp,.
-    set directory=~\vimfiles\vimtmp,.
-endif
-
 au BufRead,BufNewFile *.md set filetype=markdown
 " Sets syntax highlighting for bash_aliases and histor
 au BufRead,BufNewFile *.bash* set filetype=sh
+cmap H H
 
 if has("win32")
     " GUI OPTIONS
@@ -220,39 +280,7 @@ if has("win32")
     let g:syntastic_json_checkers=['jsonlint']
 endif
 
-let $dropbox = 'X:\Dropbox'
-if has("unix")
-    let $dropbox = '/media/common/Dropbox'
-endif
-let $vimrc = $dropbox . '\Public\configs\vim\.vimrc'
-let $haskell = $dropbox . '\haskell'
-let $configs = $dropbox . '\Public\configs\vim'
-let $vimsnips = $configs . '\vim\.vim\vim-addons\vim-snippets\snippets'
-let $spanish = $dropbox . '\js\spanish'
-let $desktop = 'C:\Users\Toshiba PC\Desktop'
-" Necessary for plugins requiring python
-let $pythonhome = 'C:\Python27'
-if has("unix")
-    let $vimrc = ConvertWin32ToUnix($vimrc)
-    let $haskell = ConvertWin32ToUnix($haskell)
-    let $configs = ConvertWin32ToUnix($configs)
-    let $vimsnips = ConvertWin32ToUnix($vimsnips)
-    let $spanish = ConvertWin32ToUnix($spanish)
-    let $shell_scripts = $dropbox . '/sh'
-endif
-
-if has("nvim")
-    " Prevents terminal buffer from being deleted once it's window closes
-    autocmd TermOpen * set hidden
-endif
-
-function! PasteHere()
-    silent! set paste
-    silent! normal! "+P
-    silent! set nopaste
-endfunction
-
-command! PasteHere :call PasteHere()
+" USER DEFINED FUNCTIONS
 
 function! MakeNumberedListInLastVisualSelection()
     silent! '<,'>s/ - /\=line('.')-line("'<")+1
@@ -261,18 +289,17 @@ endfunction
 
 command! NumberBuffer call MakeNumberedListInLastVisualSelection()
 
-nnoremap cd :silent! :!cmd .<CR>
-
 function! OneLineDown ()
     .put=''
 endfunction
-
 function! OneLineUp ()
     .-1put=''
 endfunction
+nnoremap <silent>  :call OneLineDown ()<CR>
+nnoremap <silent>  :call OneLineUp ()<CR>
 
-nnoremap  :call OneLineDown ()<CR>
-nnoremap  :call OneLineUp ()<CR>
+xmap H :norm! @a<CR>
+nmap H @:
 
 if !exists("*AddNewPlugin")
     function! AddNewPlugin ()
@@ -286,33 +313,93 @@ if !exists("*AddNewPlugin")
     command! AddNewPlugin call AddNewPlugin()
 endif
 
-let g:multi_cursor_exit_from_insert_mode = 0
-let g:eregex_default_enable = 0
-
-nnoremap g/ :1M/
-
-noremap h "+
-
-nnoremap , ;
-nnoremap c, ,
-
-vmap K <Plug>SchleppIndentDown
-vmap L <Plug>SchleppIndentUp
-
-vmap <Left> <Plug>SchleppLeft
-vmap <Right> <Plug>SchleppRight
-
 function! DuplicateAndComment ()
     silent! '<,'>t'>
     silent! '<,'>TComment
 endfunction
+xmap gy :call DuplicateAndComment ()<CR>
 
-vmap gy :call DuplicateAndComment ()<CR>
-nnoremap <BS> :set hls!<CR>
+if has("nvim")
+    function! HorizontalTerminal()
+        sp
+        term
+    endfunction
+    cabbrev sterm :call HorizontalTerminal()
+    function! VerticalTerminal()
+        vs
+        term
+    endfunction
+    cabbrev vterm :call VerticalTerminal()
+endif
 
-nmap s <Plug>(SneakStreak)
-nmap S <Plug>(SneakStreakBackward)
-vmap s <Plug>(SneakStreak)
+function! DeleteToOneLine ()
+    silent! %s/^\s\+$//
+    " http://stackoverflow.com/questions/3032030/how-does-g-j-reduce-multiple-blank-lines-to-a-single-blank-work-in-vi
+    silent! g/^$/,/./-j
+    silent! normal! 
+    echo "Merged all consecutive blank lines"
+endfunction
 
-cnoremap <C-l> <Up>
-cnoremap <C-k> <Down>
+nmap  do :call DeleteToOneLine()<CR>
+
+function! Cbr ()
+    Renamer
+    %s/ - Imgur//
+    %s/zip/cbr
+    Ren
+endfunction
+
+command! Cbr call Cbr()
+
+nmap ga <Plug>(EasyAlign)
+xmap ga <Plug>(EasyAlign)
+
+" To reload in VisualStudio
+set autoread
+
+let $ideavimrc = 'C:\Users\Toshiba PC\.ideavimrc'
+let $vsvimrc = 'C:\HOME\.vsvimrc'
+
+function! RenameFile()
+    let old_name = expand('%')
+    let new_name = input('New file name: ', expand('%'), 'file')
+    if new_name != '' && new_name != old_name
+        exec ':saveas ' . new_name
+        exec ':silent !rm ' . old_name
+        redraw!
+    endif
+endfunction
+
+command! RenameFile call RenameFile()
+
+nnoremap Y y$
+
+function! Correction ()
+    stopinsert
+    normal! xP
+    normal! l
+    startinsert
+endfunction
+
+inoremap <S-CR> <C-o>:call Correction()<CR>
+
+nnoremap ga :Tab /
+
+nnoremap <space> ,
+xnoremap <space> ,
+onoremap <space> ,
+
+let $md = $dropbox . '\text\markdown'
+let $text = $dropbox . '\text'
+let $ftplugin = $configs . '\.vim\ftplugin'
+
+iabbrev arw ->
+
+function! YoManga()
+    silent! %s/\[YoManga\]//
+    silent! %s/_/ /g
+    silent! %s/zip/cbr
+endfunction
+
+command! YoManga call YoManga()
+
