@@ -4,6 +4,7 @@ vim/*
 vim/.vim/*
 !vim/.vim/vim-addons/
 !vim/.vimrc
+!vim/*vimrc
 
 vim/.vim/vim-addons/*
 !vim/.vim/vim-addons/vim-snippets/

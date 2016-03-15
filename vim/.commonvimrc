@@ -1,0 +1,34 @@
+
+set relativenumber
+set number
+
+imap jk <ESC>
+nnoremap j h
+nnoremap k j
+nnoremap l k
+nnoremap ; l
+
+vnoremap j h
+vnoremap k j
+vnoremap l k
+vnoremap ; l
+
+nnoremap h "+
+xnoremap h "+
+
+onoremap j h
+onoremap k j
+onoremap l k
+onoremap ; l
+
+nnoremap , ;
+xnoremap , ;
+
+nmap <silent> <C-k> :.put=""<CR>
+nmap <silent> <C-l> :.-1put=""<CR>
+
+nnoremap <BS> :set hls!<CR>
+nnoremap Y y$
+
+echo "Reloaded .commonvimrc"
+

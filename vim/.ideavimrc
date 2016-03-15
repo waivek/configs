@@ -1,0 +1,11 @@
+source X:\Dropbox\Public\configs\vim\.commonvimrc
+
+" http://devmake.com/starting-vim-gvim-from-intellij/
+nmap gw :action Tool_External Tools_Vim<CR>
+nmap cr :source C:/Users/Toshiba PC/.ideavimrc<CR>:echo "Reloaded .ideavimrc"<CR>
+
+nmap cv :action RenameElement<CR>
+nmap co :action RunClass<CR>
+nmap zO :action ExpandRegionRecursively<CR>
+nmap zC :action ExpandRegionRecursively<CR>
+nmap cn :action ShowNavBar<CR>
