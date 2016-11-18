@@ -1,10 +1,41 @@
+"  Command
+"  C:\Program Files (x86)\Vim\vim74\gvim.exe
+ 
+"  Arguments
+" --remote "+call cursor($(CurLine), $(CurCol))" "$(ItemPath)"
+ 
+" Initial Directory
+" $(SolutionDir)
+
 source X:\Dropbox\Public\configs\vim\.commonvimrc
 " http://www.kevinberridge.com/2008/10/vim-to-and-from-visual-studio.html
 nmap gw :w<CR>:vsc Tools.ExternalCommand4<CR>
 nmap cr :source C:\HOME\.vsvimrc<CR>
-nmap cv :vsc Refactor.Rename<CR>eviw<C-g>
+" nnoremap cv :vsc Refactor.Rename<CR>eviw<C-g>
+nnoremap cv :vsc Refactor.Rename<CR>
+
+nnoremap gcc :vsc ReSharper.ReSharper_LineComment<CR>k
+vnoremap gc :vsc ReSharper.ReSharper_LineComment<CR>'<
 
 cnoremap <C-l> <Up>
 cnoremap <C-k> <Down>
 
+nmap [q :vsc ReSharper.ReSharper_GotoPrevErrorInSolution<CR>
+nmap ]q :vsc ReSharper.ReSharper_GotoNextErrorInSolution<CR>
+
+nmap [[ :vsc ReSharper.ReSharper_GotoPrevMethod<CR>
+nmap ]] :vsc ReSharper.ReSharper_GotoNextMethod<CR>
+
 echo "Reloaded vsvimrc"
+
+nmap co :vsc Debug.StartWithoutDebugging<CR>
+nmap zb :vsc Debug.ToggleBreakpoint<CR>
+nmap zk :vsc Tools.CustomizeKeyboard<CR>
+nmap zK :vsc VsVim.Options<CR>
+nmap do :vsc Debug.Start<CR>
+nmap cm :vsc ReSharper.ReSharper_GotoRecentFiles<CR>
+nmap <C-Tab> :vsc Window.NextTab<CR>
+" Go To Keyboard and disable shortcut
+nmap <C-S-Tab> :vsc Window.PreviousTab<CR>
+vmap K :vsc Edit.MoveSelectedLinesDown<CR>
+vmap L :vsc Edit.MoveSelectedLinesUp<CR>

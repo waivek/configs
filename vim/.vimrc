@@ -4,28 +4,29 @@ if has("win32")
     set rtp+=X:\Dropbox\Public\configs\vim\.vim\bundle\Vundle.vim
 endif
 if has("unix")
-    set rtp+=/media/common/Dropbox/Public/configs/vim/.vim/bundle/Vundle.vim
+    set rtp+=/mnt/x/Dropbox/Public/configs/vim/.vim/bundle/Vundle.vim
     set rtp+=X:/Dropbox/Public/configs/vim/.vim/bundle/Vundle.vim
 endif
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'scrooloose/nerdtree'
+" Plugin 'scrooloose/nerdtree'
 Plugin 'tomtom/tcomment_vim'
-Plugin 'scrooloose/syntastic'
-Plugin 'tpope/vim-fugitive'
+Plugin 'prendradjaja/vim-vertigo'
+" Plugin 'scrooloose/syntastic'
+" Plugin 'tpope/vim-fugitive'
 Plugin 'bling/vim-airline'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat'
 Plugin 'kien/ctrlp.vim'          
 
 Plugin 'vim-scripts/renamer.vim' 
-Plugin 'SirVer/ultisnips'        
+" Plugin 'SirVer/ultisnips'        
 Plugin 'godlygeek/tabular'       
 
-" JAVSCRIPT SPECIFIC PLUGIN
-Plugin 'jaxbot/browserlink.vim'
-Plugin 'vim-scripts/vim-auto-save'
-Plugin 'elzr/vim-json'
+" " JAVSCRIPT SPECIFIC PLUGIN
+" Plugin 'jaxbot/browserlink.vim'
+" Plugin 'vim-scripts/vim-auto-save'
+" Plugin 'elzr/vim-json'
 
 Plugin 'Raimondi/delimitMate'
 Plugin 'tommcdo/vim-exchange'
@@ -36,12 +37,13 @@ Plugin 'wellle/targets.vim'
 
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'justinmk/vim-sneak'
-Plugin 'othree/eregex.vim'
+" Plugin 'othree/eregex.vim'
 Plugin 'zirrostig/vim-schlepp'
 Plugin 'junegunn/vim-easy-align'
 Plugin 'osyo-manga/vim-over'
 Plugin 'bps/vim-textobj-python'
 Plugin 'michaeljsmith/vim-indent-object'
+Plugin 'coderifous/textobj-word-column.vim'
 call vundle#end()
 
 set nocompatible | filetype indent plugin on | syn on 
@@ -77,6 +79,17 @@ let delimitMate_jump_expansion = 1
 let g:multi_cursor_exit_from_insert_mode = 0
 let g:eregex_default_enable = 0
 
+" To prevent map conflict with textobj-column
+let g:textobj_comment_no_default_key_mappings = 1
+xmap ax <Plug>(textobj-comment-a)
+omap ax <Plug>(textobj-comment-a)
+
+xmap ix <Plug>(textobj-comment-i)
+omap ix <Plug>(textobj-comment-i)
+
+xmap aX <Plug>(textobj-comment-big-a)
+omap aX <Plug>(textobj-comment-big-a)
+
 if has("win32")
     source $HOME\vimfiles\autoload\pathConverter.vim
     source $HOME\vimfiles\autoload\showLeader.vim
@@ -104,11 +117,12 @@ colorscheme  molokai
 
 let $dropbox = 'X:\Dropbox'
 if has("unix")
-    let $dropbox = '/media/common/Dropbox'
+    let $dropbox = '/mnt/x/Dropbox'
 endif
 let $vimrc = $dropbox . '\Public\configs\vim\.vimrc'
 let $haskell = $dropbox . '\haskell'
 let $configs = $dropbox . '\Public\configs\vim'
+let $commonvimrc = $configs . '\.commonvimrc'
 let $vimsnips = $configs . '\vim\.vim\vim-addons\vim-snippets\snippets'
 let $spanish = $dropbox . '\js\spanish'
 let $desktop = 'C:\Users\Toshiba PC\Desktop'
@@ -121,6 +135,7 @@ if has("unix")
     let $vimsnips = ConvertWin32ToUnix($vimsnips)
     let $spanish = ConvertWin32ToUnix($spanish)
     let $shell_scripts = $dropbox . '/sh'
+    let $commonvimrc = ConvertWin32ToUnix($commonvimrc)
 endif
 
 if has("unix")
@@ -158,10 +173,12 @@ nnoremap j h
 nnoremap k gj
 nnoremap l gk
 nnoremap ; l
+
 onoremap j h
-onoremap k gj
-onoremap l gk
+onoremap k j
+onoremap l k
 onoremap ; l
+
 xnoremap j h
 xnoremap k gj
 xnoremap l gk
@@ -283,7 +300,7 @@ endif
 " USER DEFINED FUNCTIONS
 
 function! MakeNumberedListInLastVisualSelection()
-    silent! '<,'>s/ - /\=line('.')-line("'<")+1
+    silent! '<,'>s/*/\=line('.')-line("'<")+1
     silent! %s/(\d\)\./0\1 
 endfunction
 
@@ -389,9 +406,9 @@ nnoremap <space> ,
 xnoremap <space> ,
 onoremap <space> ,
 
-let $md = $dropbox . '\text\markdown'
-let $text = $dropbox . '\text'
-let $ftplugin = $configs . '\.vim\ftplugin'
+let $md = $dropbox . '/text/markdown'
+let $text = $dropbox . '/text'
+let $ftplugin = $configs . '/.vim/ftplugin'
 
 iabbrev arw ->
 
@@ -403,3 +420,38 @@ endfunction
 
 command! YoManga call YoManga()
 
+onoremap { V{
+onoremap } V}
+
+function! MP3TextFileGenerator()
+    Renamer
+    let @s=''
+    g/\.mp3/yank S
+    edit temp.txt
+    bd VimRenamer
+    put=@s
+    g/^$/d
+    %s/mp3/txt
+    %s/ /\\ /g
+    %join
+    normal! :arga 
+    bufdo write
+endfunction
+
+command! MP3TextFileGenerator call MP3TextFileGenerator()
+
+cnoremap jk <C-c>
+
+nnoremap U <C-r>
+
+nnoremap yo :silent !pandoc -o paper.html paper.md \| paper.html<CR>
+
+nnoremap <expr> k (v:count > 1 ? "m'" . v:count : '') . 'gj'
+nnoremap <expr> l (v:count > 1 ? "m'" . v:count : '') . 'gk'
+
+nnoremap <silent> <Space>k :<C-U>VertigoDown n<CR>
+vnoremap <silent> <Space>k :<C-U>VertigoDown v<CR>
+onoremap <silent> <Space>k :<C-U>VertigoDown o<CR>
+nnoremap <silent> <Space>l :<C-U>VertigoUp n<CR>
+vnoremap <silent> <Space>l :<C-U>VertigoUp v<CR>
+onoremap <silent> <Space>l :<C-U>VertigoUp o<CR>

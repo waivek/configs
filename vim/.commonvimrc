@@ -14,6 +14,7 @@ vnoremap ; l
 
 nnoremap h "+
 xnoremap h "+
+vnoremap h "+
 
 onoremap j h
 onoremap k j
@@ -22,6 +23,7 @@ onoremap ; l
 
 nnoremap , ;
 xnoremap , ;
+vnoremap , ;
 
 nmap <silent> <C-k> :.put=""<CR>
 nmap <silent> <C-l> :.-1put=""<CR>

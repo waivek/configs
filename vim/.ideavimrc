@@ -1,10 +1,40 @@
+" Program
+" C:\Program Files (x86)\Vim\vim74\gvim.exe
+ 
+"  Parameters
+"  --remote "+call cursor($LineNumber$, $ColumnNumber$)" "$FilePath$"
+ 
+" Working Directory
+" $FileDir$
+ 
+" UNCHECK OPEN CONSOLE
+ 
 source X:\Dropbox\Public\configs\vim\.commonvimrc
+
+set surround
+set incsearch
+
 " http://devmake.com/starting-vim-gvim-from-intellij/
 nmap gw :action Tool_External Tools_Vim<CR>
 nmap cr :source C:/Users/Toshiba PC/.ideavimrc<CR>:echo "Reloaded .ideavimrc"<CR>
 nmap cv :action RenameElement<CR>
 
-nmap co :action RunClass<CR>
 nmap cn :action ShowNavBar<CR>
 
-echo "Reloaded ideavimrc"
+nmap [q :action GotoPreviousError<CR>
+nmap ]q :action GotoNextError<CR>
+
+nmap [[ :action MethodUp<CR>
+nmap ]] :action MethodDown<CR>
+
+nmap co :action Run<CR>
+
+vnoremap <Tab> :action SurroundWithLiveTemplate
+
+nmap cu :action FindUsages<CR>
+
+nmap zC :action CollapseAllRegions<CR>
+nmap zO :action ExpandAllToLevel1<CR>
+
+nmap gi :action Inline<CR>
+nmap ge :action IntroduceVariable<CR>
