@@ -3,9 +3,9 @@ alias f='cd $dropbox/cpp/object-oriented-programming'
 alias c='cd $dropbox/c/oop_c/'
 alias t='vim $dropbox/to-do.md'
 alias song='youtube-dl -x -a ~/Desktop/songs.txt'
-alias tmux='tmux -2'
+# alias tmux='tmux -2'
 alias p='xdg-open /media/common/Videos/Archive/Google\ IO\ Talks/Files/Video/NewEarth'
-alias nvim='TERM=xterm-256color nvim ~/.vimrc'
+# alias nvim='TERM=xterm-256color nvim'
 
 export dropbox='/media/common/Dropbox'
 export configs="${dropbox}/Public/configs/vim"
