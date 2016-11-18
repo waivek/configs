@@ -1,9 +1,8 @@
 source X:\Dropbox\Public\configs\vim\.commonvimrc
 " http://www.kevinberridge.com/2008/10/vim-to-and-from-visual-studio.html
-nnoremap gw :w<CR>:vsc Tools.ExternalCommand4<CR>
-nnoremap cr :source C:\HOME\.vsvimrc<CR>
-
-nnoremap cv :vsc Refactor.Rename<CR>eviw<C-g>
+nmap gw :w<CR>:vsc Tools.ExternalCommand4<CR>
+nmap cr :source C:\HOME\.vsvimrc<CR>
+nmap cv :vsc Refactor.Rename<CR>eviw<C-g>
 
 cnoremap <C-l> <Up>
 cnoremap <C-k> <Down>
