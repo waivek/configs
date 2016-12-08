@@ -9,10 +9,8 @@ if has("unix")
 endif
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
-" Plugin 'scrooloose/nerdtree'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'prendradjaja/vim-vertigo'
-" Plugin 'scrooloose/syntastic'
 " Plugin 'tpope/vim-fugitive'
 Plugin 'bling/vim-airline'
 Plugin 'tpope/vim-surround'
@@ -22,11 +20,6 @@ Plugin 'kien/ctrlp.vim'
 Plugin 'vim-scripts/renamer.vim' 
 " Plugin 'SirVer/ultisnips'        
 Plugin 'godlygeek/tabular'       
-
-" " JAVSCRIPT SPECIFIC PLUGIN
-" Plugin 'jaxbot/browserlink.vim'
-" Plugin 'vim-scripts/vim-auto-save'
-" Plugin 'elzr/vim-json'
 
 Plugin 'Raimondi/delimitMate'
 Plugin 'tommcdo/vim-exchange'
@@ -39,11 +32,12 @@ Plugin 'terryma/vim-multiple-cursors'
 Plugin 'justinmk/vim-sneak'
 " Plugin 'othree/eregex.vim'
 Plugin 'zirrostig/vim-schlepp'
-Plugin 'junegunn/vim-easy-align'
+" Plugin 'junegunn/vim-easy-align'
 Plugin 'osyo-manga/vim-over'
 Plugin 'bps/vim-textobj-python'
 Plugin 'michaeljsmith/vim-indent-object'
 Plugin 'coderifous/textobj-word-column.vim'
+Plugin 'tmhedberg/matchit'
 call vundle#end()
 
 set nocompatible | filetype indent plugin on | syn on 
@@ -92,25 +86,10 @@ omap aX <Plug>(textobj-comment-big-a)
 
 if has("win32")
     source $HOME\vimfiles\autoload\pathConverter.vim
-    source $HOME\vimfiles\autoload\showLeader.vim
-    source $HOME\vimfiles\autoload\header_plugin.vim
-    source $HOME\vimfiles\autoload\toggle_plugin.vim
-    source $HOME\vimfiles\autoload\makeSpace.vim
-    source $HOME\vimfiles\autoload\mdToCode.vim
-    source $HOME\vimfiles\autoload\vMove.vim
-    source $HOME\vimfiles\autoload\noEsc.vim
-    source $HOME\vimfiles\autoload\toggleColor.vim
 endif
+
 if has("unix")
     source $HOME/.vim/autoload/pathConverter.vim
-    source $HOME/.vim/autoload/showLeader.vim
-    source $HOME/.vim/autoload/header_plugin.vim
-    source $HOME/.vim/autoload/toggle_plugin.vim
-    source $HOME/.vim/autoload/makeSpace.vim
-    source $HOME/.vim/autoload/mdToCode.vim
-    source $HOME/.vim/autoload/vMove.vim
-    source $HOME/.vim/autoload/noEsc.vim
-    source $HOME/.vim/autoload/toggleColor.vim
 endif
 
 colorscheme  molokai
@@ -455,3 +434,12 @@ onoremap <silent> <Space>k :<C-U>VertigoDown o<CR>
 nnoremap <silent> <Space>l :<C-U>VertigoUp n<CR>
 vnoremap <silent> <Space>l :<C-U>VertigoUp v<CR>
 onoremap <silent> <Space>l :<C-U>VertigoUp o<CR>
+
+
+let g:ctrlp_prompt_mappings = {
+    \ 'PrtSelectMove("j")':   ['<c-k>', '<down>'],
+    \ 'PrtSelectMove("k")':   ['<c-l>', '<up>'],
+    \ 'PrtCurRight()':        [ '<right>'],
+    \ }
+
+" %s/\(\u\)\(\u\+\)/\1\L\2/g
