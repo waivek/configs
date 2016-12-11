@@ -1,44 +1,112 @@
+set nowrap
 set nocompatible
-filetype off
-if has("win32")
-    set rtp+=X:\Dropbox\Public\configs\vim\.vim\bundle\Vundle.vim
-endif
-if has("unix")
-    set rtp+=/mnt/x/Dropbox/Public/configs/vim/.vim/bundle/Vundle.vim
-    set rtp+=X:/Dropbox/Public/configs/vim/.vim/bundle/Vundle.vim
-endif
-call vundle#begin()
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'tomtom/tcomment_vim'
-Plugin 'prendradjaja/vim-vertigo'
-" Plugin 'tpope/vim-fugitive'
-Plugin 'bling/vim-airline'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-repeat'
-Plugin 'kien/ctrlp.vim'          
+set runtimepath+=X:\Dropbox\Public\configs\vim\.vim\dein\repos\github.com\Shougo\dein.vim
+call dein#begin('X:\Dropbox\Public\configs\vim\.vim\dein\')
 
-Plugin 'vim-scripts/renamer.vim' 
-" Plugin 'SirVer/ultisnips'        
-Plugin 'godlygeek/tabular'       
 
-Plugin 'Raimondi/delimitMate'
-Plugin 'tommcdo/vim-exchange'
+" " Plug 'tpope/vim-fugitive'
+" " Plug 'SirVer/ultisnips'        
+" " Plug 'othree/eregex.vim'
+" call dein#add('bling/vim-airline',
+"     \ { 'merged': 0 })
+" call dein#add('vim-airline/vim-airline-themes' )
 
-Plugin 'kana/vim-textobj-user'
-Plugin 'glts/vim-textobj-comment'
-Plugin 'wellle/targets.vim'
+call dein#add('tomtom/tcomment_vim',
+            \ {'on_map': 'gc'})
+call dein#add('kien/ctrlp.vim', 
+            \ { 'on_cmd' : 'CtrlPMRUFiles' })
+call dein#add('qpkorr/vim-renamer', 
+            \ { 'on_cmd': 'Renamer'})
+call dein#add('godlygeek/tabular', 
+            \ { 'on_cmd' : 'Tab' })
+call dein#add('tommcdo/vim-exchange', 
+            \ { 'on_map' : {'n' : 'cx', 'x' : 'X' } } )
 
-Plugin 'terryma/vim-multiple-cursors'
-Plugin 'justinmk/vim-sneak'
-" Plugin 'othree/eregex.vim'
-Plugin 'zirrostig/vim-schlepp'
-" Plugin 'junegunn/vim-easy-align'
-Plugin 'osyo-manga/vim-over'
-Plugin 'bps/vim-textobj-python'
-Plugin 'michaeljsmith/vim-indent-object'
-Plugin 'coderifous/textobj-word-column.vim'
-Plugin 'tmhedberg/matchit'
-call vundle#end()
+" call dein#add()'prendradjaja/vim-vertigo')
+" call dein#add('justinmk/vim-sneak',
+"             \ {'on_map' : {'n' : ['s', 'S']}})
+
+call dein#add('tpope/vim-repeat',
+            \ {'on_map' : '.'})
+call dein#add( 'tpope/vim-surround',
+            \ {'on_map': {'n' : ['cs', 'ds', 'ys'], 'x' : ['S']},
+            \ 'depends' : 'vim-repeat'})
+
+call dein#add('Raimondi/delimitMate', {
+            \ 'on_event' : 'InsertEnter',
+            \ })
+
+call dein#add('terryma/vim-multiple-cursors',
+            \ { 'on_map' : { 'n' : ['<C-n>', '<C-p>'], 'x' : '<C-n>'}})
+call dein#add('kana/vim-textobj-user')
+call dein#add('glts/vim-textobj-comment', 
+            \ {'on_map' :['<Plug>(textobj-comment-a)', '<Plug>(textobj-comment-i)', '<Plug>(textobj-comment-i)', '<Plug>(textobj-comment-big-a)']}) 
+call dein#add('coderifous/textobj-word-column.vim',
+            \ {'on_map': {'xo' : ['ic', 'ac']}})
+
+call dein#add('kana/vim-textobj-indent',
+            \ {'on_map': {'xo' : ['ii', 'ai']}})
+
+call dein#add('wellle/targets.vim')
+
+call dein#add('zirrostig/vim-schlepp', 
+            \ { 'on_map' :  ['<Plug>SchleppIndentDown', '<Plug>SchleppIndentUp', '<Plug>SchleppLeft', '<Plug>SchleppRight']})
+
+call dein#add('osyo-manga/vim-over', 
+            \ { 'on_cmd' : 'OverCommandLine' })
+call dein#add('bps/vim-textobj-python', 
+            \{ 'on_ft' : 'python' })
+call dein#add('tmhedberg/matchit', 
+            \{ 'on_ft' : 'html' })
+
+call dein#end()
+
+filetype plugin indent on
+syntax enable
+
+" set nocompatible
+" filetype off
+" if has("win32")
+"     set rtp+=X:\Dropbox\Public\configs\vim\.vim\bundle\Vundle.vim
+" endif
+" if has("unix")
+"     set rtp+=/mnt/x/Dropbox/Public/configs/vim/.vim/bundle/Vundle.vim
+"     set rtp+=X:/Dropbox/Public/configs/vim/.vim/bundle/Vundle.vim
+" endif
+" call vundle#begin()
+" Plugin 'VundleVim/Vundle.vim'
+" Plugin 'justinmk/vim-sneak'
+" call vundle#end()
+
+" call plug#begin()
+" " Plug 'tpope/vim-fugitive'
+" " Plug 'SirVer/ultisnips'        
+" " Plug 'othree/eregex.vim'
+" Plug 'bling/vim-airline'
+" Plug 'vim-airline/vim-airline-themes' 
+"
+" Plug 'prendradjaja/vim-vertigo'
+" Plug 'tpope/vim-repeat'
+" Plug 'Raimondi/delimitMate'
+" Plug 'kana/vim-textobj-user'
+" Plug 'wellle/targets.vim'
+" Plug 'terryma/vim-multiple-cursors'
+" Plug 'michaeljsmith/vim-indent-object'
+" Plug 'justinmk/vim-sneak' " Error
+" Plug 'tomtom/tcomment_vim'
+" Plug 'coderifous/textobj-word-column.vim'
+"
+" Plug 'tpope/vim-surround', { 'on': ['<Plug>Dsurround', '<Plug>Csurround', '<Plug>CSurround', '<Plug>Ysurround', '<Plug>YSurround', '<Plug>Yssurround', '<Plug>YSsurround', '<Plug>YSsurround', '<Plug>VSurround'] } 
+" Plug 'kien/ctrlp.vim', { 'on' : 'CtrlPMRUFiles' }
+" Plug 'qpkorr/vim-renamer', { 'on' : ['Renamer'] }
+" Plug 'godlygeek/tabular', { 'on' : ['Tab'] }       
+" Plug 'tommcdo/vim-exchange', { 'on' : ['<Plug>(ExchangeLine)', '<Plug>(ExchangeClear)', '<Plug>(Exchange)', '<Plug>(Exchange)'] } 
+" Plug 'glts/vim-textobj-comment', {'on' : [ '<Plug>(textobj-comment-a)', '<Plug>(textobj-comment-i)', '<Plug>(textobj-comment-i)', '<Plug>(textobj-comment-big-a)' ]}
+" Plug 'zirrostig/vim-schlepp', { 'on' :  ['<Plug>SchleppIndentDown', '<Plug>SchleppIndentUp', '<Plug>SchleppLeft', '<Plug>SchleppRight']}
+" Plug 'osyo-manga/vim-over', { 'on' : ['OverCommandLine'] }
+" Plug 'bps/vim-textobj-python', { 'for' : 'python' }
+" Plug 'tmhedberg/matchit', { 'for' : 'html' }
+" call plug#end()
 
 set nocompatible | filetype indent plugin on | syn on 
 " === VIM-AIRLINE SETTINGS : START ===
@@ -49,6 +117,7 @@ set laststatus=2
 " Shows buffers in tab
 " Tabline works when only single tab
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tagbar#enabled = 0
 " Need to add thesee two to display glyphs properly in vim-airline
 let g:airline_powerline_fonts = 1
 if has("nvim") == 0
@@ -69,7 +138,6 @@ let g:UltiSnipsJumpBackwardTrigger = "<C-l>"
 let delimitMate_expand_cr = 1
 let delimitMate_expand_space=1
 let delimitMate_jump_expansion = 1
-
 let g:multi_cursor_exit_from_insert_mode = 0
 let g:eregex_default_enable = 0
 
@@ -208,9 +276,10 @@ xmap <silent> <Left> <Plug>SchleppLeft
 xmap <silent> <Right> <Plug>SchleppRight
 nnoremap <BS> :set hls!<CR>
 
-nmap s <Plug>(SneakStreak)
-nmap S <Plug>(SneakStreakBackward)
-xmap s <Plug>(SneakStreak)
+" let g:sneak#streak = 1 
+" nmap s <Plug>(SneakStreak)
+" nmap S <Plug>(SneakStreakBackward)
+" xmap s <Plug>(SneakStreak)
 
 cnoremap <C-l> <Up>
 cnoremap <C-k> <Down>
@@ -246,9 +315,8 @@ set backspace=indent,eol,start
 set splitright
 
 au BufRead,BufNewFile *.md set filetype=markdown
-" Sets syntax highlighting for bash_aliases and histor
+" Sets syntax highlighting for bash_aliases and history
 au BufRead,BufNewFile *.bash* set filetype=sh
-cmap H H
 
 if has("win32")
     " GUI OPTIONS
@@ -278,12 +346,11 @@ endif
 
 " USER DEFINED FUNCTIONS
 
-function! MakeNumberedListInLastVisualSelection()
-    silent! '<,'>s/*/\=line('.')-line("'<")+1
-    silent! %s/(\d\)\./0\1 
+function! Number()
+    silent! '<,'>s/^/\=line('.')-line("'<")+1
 endfunction
 
-command! NumberBuffer call MakeNumberedListInLastVisualSelection()
+command! Number call Number()
 
 function! OneLineDown ()
     .put=''
@@ -346,9 +413,6 @@ function! Cbr ()
 endfunction
 
 command! Cbr call Cbr()
-
-nmap ga <Plug>(EasyAlign)
-xmap ga <Plug>(EasyAlign)
 
 " To reload in VisualStudio
 set autoread
@@ -435,7 +499,6 @@ nnoremap <silent> <Space>l :<C-U>VertigoUp n<CR>
 vnoremap <silent> <Space>l :<C-U>VertigoUp v<CR>
 onoremap <silent> <Space>l :<C-U>VertigoUp o<CR>
 
-
 let g:ctrlp_prompt_mappings = {
     \ 'PrtSelectMove("j")':   ['<c-k>', '<down>'],
     \ 'PrtSelectMove("k")':   ['<c-l>', '<up>'],
@@ -443,3 +506,20 @@ let g:ctrlp_prompt_mappings = {
     \ }
 
 " %s/\(\u\)\(\u\+\)/\1\L\2/g
+
+" nmap  cxx <Plug>(ExchangeLine)
+" nmap  cxc <Plug>(ExchangeClear)
+" nmap  cx  <Plug>(Exchange)
+" xmap  X   <Plug>(Exchange)
+"
+" nmap ds  <Plug>Dsurround
+" nmap cs  <Plug>Csurround
+" nmap cS  <Plug>CSurround
+" nmap ys  <Plug>Ysurround
+" nmap yS  <Plug>YSurround
+" nmap yss <Plug>Yssurround
+" nmap ySs <Plug>YSsurround
+" nmap ySS <Plug>YSsurround
+" xmap S   <Plug>VSurround
+
+
