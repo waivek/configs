@@ -1,114 +1,72 @@
-set nowrap
+" Plugins  {{{2
 set nocompatible
 set runtimepath+=X:\Dropbox\Public\configs\vim\.vim\dein\repos\github.com\Shougo\dein.vim
-call dein#begin('X:\Dropbox\Public\configs\vim\.vim\dein\')
-
+call dein#begin( 'X:\Dropbox\Public\configs\vim\.vim\dein\' )
 
 " " Plug 'tpope/vim-fugitive'
 " " Plug 'SirVer/ultisnips'        
 " " Plug 'othree/eregex.vim'
 " call dein#add('bling/vim-airline',
-"     \ { 'merged': 0 })
-" call dein#add('vim-airline/vim-airline-themes' )
+    "     \ { 'merged': 0 })
+    " call dein#add('vim-airline/vim-airline-themes' )
 
-call dein#add('tomtom/tcomment_vim',
-            \ {'on_map': 'gc'})
-call dein#add('kien/ctrlp.vim', 
+    call dein#add('ap/vim-buftabline')
+    call dein#add('wellle/targets.vim')
+
+    call dein#add('justinmk/vim-sneak',
+            \ {'on_map' : ['<Plug>SneakLabel_s', '<Plug>SneakLabel_S']})
+
+    call dein#add('tomtom/tcomment_vim',
+            \ {'on_map': 'gc',
+            \  'on_cmd' : 'TComment'})
+    call dein#add('kien/ctrlp.vim', 
             \ { 'on_cmd' : 'CtrlPMRUFiles' })
-call dein#add('qpkorr/vim-renamer', 
+    call dein#add('qpkorr/vim-renamer', 
             \ { 'on_cmd': 'Renamer'})
-call dein#add('godlygeek/tabular', 
-            \ { 'on_cmd' : 'Tab' })
-call dein#add('tommcdo/vim-exchange', 
+    " Not first time
+    call dein#add('godlygeek/tabular', 
+            \ { 'on_cmd' : [ 'Tab', 'Tabularize' ] ,
+            \   'on_map' : 'ga' })
+    call dein#add('tommcdo/vim-exchange', 
             \ { 'on_map' : {'n' : 'cx', 'x' : 'X' } } )
 
-" call dein#add()'prendradjaja/vim-vertigo')
-" call dein#add('justinmk/vim-sneak',
-"             \ {'on_map' : {'n' : ['s', 'S']}})
-
-call dein#add('tpope/vim-repeat',
+    call dein#add('tpope/vim-repeat',
             \ {'on_map' : '.'})
-call dein#add( 'tpope/vim-surround',
+    call dein#add( 'tpope/vim-surround',
             \ {'on_map': {'n' : ['cs', 'ds', 'ys'], 'x' : ['S']},
             \ 'depends' : 'vim-repeat'})
 
-call dein#add('Raimondi/delimitMate', {
+    call dein#add('Raimondi/delimitMate', {
             \ 'on_event' : 'InsertEnter',
             \ })
 
-call dein#add('terryma/vim-multiple-cursors',
+    call dein#add('terryma/vim-multiple-cursors',
             \ { 'on_map' : { 'n' : ['<C-n>', '<C-p>'], 'x' : '<C-n>'}})
-call dein#add('kana/vim-textobj-user')
-call dein#add('glts/vim-textobj-comment', 
+    call dein#add('kana/vim-textobj-user')
+    call dein#add('glts/vim-textobj-comment', 
             \ {'on_map' :['<Plug>(textobj-comment-a)', '<Plug>(textobj-comment-i)', '<Plug>(textobj-comment-i)', '<Plug>(textobj-comment-big-a)']}) 
-call dein#add('coderifous/textobj-word-column.vim',
+    call dein#add('coderifous/textobj-word-column.vim',
             \ {'on_map': {'xo' : ['ic', 'ac']}})
 
-call dein#add('kana/vim-textobj-indent',
+    call dein#add('kana/vim-textobj-indent',
             \ {'on_map': {'xo' : ['ii', 'ai']}})
 
-call dein#add('wellle/targets.vim')
-
-call dein#add('zirrostig/vim-schlepp', 
+    call dein#add('zirrostig/vim-schlepp', 
             \ { 'on_map' :  ['<Plug>SchleppIndentDown', '<Plug>SchleppIndentUp', '<Plug>SchleppLeft', '<Plug>SchleppRight']})
 
-call dein#add('osyo-manga/vim-over', 
+    call dein#add('osyo-manga/vim-over', 
             \ { 'on_cmd' : 'OverCommandLine' })
-call dein#add('bps/vim-textobj-python', 
+    call dein#add('bps/vim-textobj-python', 
             \{ 'on_ft' : 'python' })
-call dein#add('tmhedberg/matchit', 
+    call dein#add('tmhedberg/matchit', 
             \{ 'on_ft' : 'html' })
 
 call dein#end()
 
-filetype plugin indent on
-syntax enable
-
-" set nocompatible
-" filetype off
-" if has("win32")
-"     set rtp+=X:\Dropbox\Public\configs\vim\.vim\bundle\Vundle.vim
-" endif
-" if has("unix")
-"     set rtp+=/mnt/x/Dropbox/Public/configs/vim/.vim/bundle/Vundle.vim
-"     set rtp+=X:/Dropbox/Public/configs/vim/.vim/bundle/Vundle.vim
-" endif
-" call vundle#begin()
-" Plugin 'VundleVim/Vundle.vim'
-" Plugin 'justinmk/vim-sneak'
-" call vundle#end()
-
-" call plug#begin()
-" " Plug 'tpope/vim-fugitive'
-" " Plug 'SirVer/ultisnips'        
-" " Plug 'othree/eregex.vim'
-" Plug 'bling/vim-airline'
-" Plug 'vim-airline/vim-airline-themes' 
-"
-" Plug 'prendradjaja/vim-vertigo'
-" Plug 'tpope/vim-repeat'
-" Plug 'Raimondi/delimitMate'
-" Plug 'kana/vim-textobj-user'
-" Plug 'wellle/targets.vim'
-" Plug 'terryma/vim-multiple-cursors'
-" Plug 'michaeljsmith/vim-indent-object'
-" Plug 'justinmk/vim-sneak' " Error
-" Plug 'tomtom/tcomment_vim'
-" Plug 'coderifous/textobj-word-column.vim'
-"
-" Plug 'tpope/vim-surround', { 'on': ['<Plug>Dsurround', '<Plug>Csurround', '<Plug>CSurround', '<Plug>Ysurround', '<Plug>YSurround', '<Plug>Yssurround', '<Plug>YSsurround', '<Plug>YSsurround', '<Plug>VSurround'] } 
-" Plug 'kien/ctrlp.vim', { 'on' : 'CtrlPMRUFiles' }
-" Plug 'qpkorr/vim-renamer', { 'on' : ['Renamer'] }
-" Plug 'godlygeek/tabular', { 'on' : ['Tab'] }       
-" Plug 'tommcdo/vim-exchange', { 'on' : ['<Plug>(ExchangeLine)', '<Plug>(ExchangeClear)', '<Plug>(Exchange)', '<Plug>(Exchange)'] } 
-" Plug 'glts/vim-textobj-comment', {'on' : [ '<Plug>(textobj-comment-a)', '<Plug>(textobj-comment-i)', '<Plug>(textobj-comment-i)', '<Plug>(textobj-comment-big-a)' ]}
-" Plug 'zirrostig/vim-schlepp', { 'on' :  ['<Plug>SchleppIndentDown', '<Plug>SchleppIndentUp', '<Plug>SchleppLeft', '<Plug>SchleppRight']}
-" Plug 'osyo-manga/vim-over', { 'on' : ['OverCommandLine'] }
-" Plug 'bps/vim-textobj-python', { 'for' : 'python' }
-" Plug 'tmhedberg/matchit', { 'for' : 'html' }
-" call plug#end()
-
+    " }}}2
 set nocompatible | filetype indent plugin on | syn on 
+colorscheme  molokai
+" Plugin Settings {{{2
 " === VIM-AIRLINE SETTINGS : START ===
 "URL = http://www.4thinker.com/vim-airline.html
 " Necessary for vim-ariline to show in normal window
@@ -152,15 +110,21 @@ omap ix <Plug>(textobj-comment-i)
 xmap aX <Plug>(textobj-comment-big-a)
 omap aX <Plug>(textobj-comment-big-a)
 
+let g:ctrlp_prompt_mappings = {
+            \ 'PrtSelectMove("j")':   ['<c-k>', '<down>'],
+            \ 'PrtSelectMove("k")':   ['<c-l>', '<up>'],
+            \ 'PrtCurRight()':        [ '<right>'],
+            \ }
+
+" }}}2
+" Paths " {{{2
+
 if has("win32")
     source $HOME\vimfiles\autoload\pathConverter.vim
 endif
-
 if has("unix")
     source $HOME/.vim/autoload/pathConverter.vim
 endif
-
-colorscheme  molokai
 
 let $dropbox = 'X:\Dropbox'
 if has("unix")
@@ -194,11 +158,14 @@ if has("win32")
     set directory=~\vimfiles\vimtmp,.
 endif
 
-if has("nvim")
-    " Prevents terminal buffer from being deleted once it's window closes
-    autocmd TermOpen * set hidden
-endif
+let $md = $dropbox . '/text/markdown'
+let $text = $dropbox . '/text'
+let $ftplugin = $configs . '/.vim/ftplugin'
+let $ideavimrc = 'C:\Users\Toshiba PC\.ideavimrc'
+let $vsvimrc = 'C:\HOME\.vsvimrc'
 
+" }}}2
+" Remaps {{{2
 if has("nvim")
     tnoremap jk  <C-\><C-n>
     tnoremap <Esc> <C-\><C-n>
@@ -270,20 +237,52 @@ nnoremap , ;
 xnoremap , ;
 
 xmap <silent> K <Plug>SchleppIndentDown
-xmap <silent> <silent> L <Plug>SchleppIndentUp
+xmap <silent> L <Plug>SchleppIndentUp
 
 xmap <silent> <Left> <Plug>SchleppLeft
 xmap <silent> <Right> <Plug>SchleppRight
 nnoremap <BS> :set hls!<CR>
 
-" let g:sneak#streak = 1 
-" nmap s <Plug>(SneakStreak)
-" nmap S <Plug>(SneakStreakBackward)
-" xmap s <Plug>(SneakStreak)
+let g:sneak#label = 1
+nmap s <Plug>SneakLabel_s
+nmap S <Plug>SneakLabel_S
+nmap , <Plug>Sneak_;
+xmap , <Plug>Sneak_;
 
 cnoremap <C-l> <Up>
 cnoremap <C-k> <Down>
 
+xmap H :norm! @a<CR>
+nmap H @:
+
+nnoremap Y y$
+nnoremap ga :Tab /
+
+cnoremap jk <C-c>
+
+nnoremap yo :silent !pandoc -o paper.html paper.md \| paper.html<CR>
+
+nnoremap <expr> k (v:count > 1 ? "m'" . v:count : '') . 'gj'
+nnoremap <expr> l (v:count > 1 ? "m'" . v:count : '') . 'gk'
+
+nnoremap <silent> <Space>k :<C-U>VertigoDown n<CR>
+vnoremap <silent> <Space>k :<C-U>VertigoDown v<CR>
+onoremap <silent> <Space>k :<C-U>VertigoDown o<CR>
+nnoremap <silent> <Space>l :<C-U>VertigoUp n<CR>
+vnoremap <silent> <Space>l :<C-U>VertigoUp v<CR>
+onoremap <silent> <Space>l :<C-U>VertigoUp o<CR>
+
+onoremap { V{
+onoremap } V}
+
+nnoremap <space> ,
+xnoremap <space> ,
+onoremap <space> ,
+
+iabbrev arw ->
+
+" }}}2
+" Option Settings {{{2
 " To make CTRL-A work on 07
 set nrformats-=octal
 set ignorecase  smartcase  
@@ -291,8 +290,6 @@ set nohlsearch incsearch
 set autochdir
 set wrap
 " set textwidth=80
-
-syntax on
 
 set number
 
@@ -343,13 +340,16 @@ if has("win32")
     "JSONLint setup
     let g:syntastic_json_checkers=['jsonlint']
 endif
+if has("nvim")
+    " Prevents terminal buffer from being deleted once it's window closes
+    autocmd TermOpen * set hidden
+endif
 
-" USER DEFINED FUNCTIONS
-
+" }}}2
+" User Defined Functions {{{2
 function! Number()
     silent! '<,'>s/^/\=line('.')-line("'<")+1
 endfunction
-
 command! Number call Number()
 
 function! OneLineDown ()
@@ -361,20 +361,17 @@ endfunction
 nnoremap <silent>  :call OneLineDown ()<CR>
 nnoremap <silent>  :call OneLineUp ()<CR>
 
-xmap H :norm! @a<CR>
-nmap H @:
-
-if !exists("*AddNewPlugin")
-    function! AddNewPlugin ()
-        ?^Plugin
-        .t.
-        normal! wdi'"+P
-        write
-        source %
-        PluginInstall
-    endfunction
-    command! AddNewPlugin call AddNewPlugin()
-endif
+" if !exists("*AddNewPlugin")
+"     function! AddNewPlugin ()
+"         ?^Plugin
+"         .t.
+"         normal! wdi'"+P
+"         write
+"         source %
+"         PluginInstall
+"     endfunction
+"     command! AddNewPlugin call AddNewPlugin()
+" endif
 
 function! DuplicateAndComment ()
     silent! '<,'>t'>
@@ -402,23 +399,15 @@ function! DeleteToOneLine ()
     silent! normal! 
     echo "Merged all consecutive blank lines"
 endfunction
-
 nmap  do :call DeleteToOneLine()<CR>
 
-function! Cbr ()
-    Renamer
-    %s/ - Imgur//
-    %s/zip/cbr
-    Ren
-endfunction
-
-command! Cbr call Cbr()
-
-" To reload in VisualStudio
-set autoread
-
-let $ideavimrc = 'C:\Users\Toshiba PC\.ideavimrc'
-let $vsvimrc = 'C:\HOME\.vsvimrc'
+" function! Cbr ()
+"     Renamer
+"     %s/ - Imgur//
+"     %s/zip/cbr
+"     Ren
+" endfunction
+" command! Cbr call Cbr()
 
 function! RenameFile()
     let old_name = expand('%')
@@ -429,10 +418,7 @@ function! RenameFile()
         redraw!
     endif
 endfunction
-
 command! RenameFile call RenameFile()
-
-nnoremap Y y$
 
 function! Correction ()
     stopinsert
@@ -443,83 +429,35 @@ endfunction
 
 inoremap <S-CR> <C-o>:call Correction()<CR>
 
-nnoremap ga :Tab /
+" function! YoManga()
+"     silent! %s/\[YoManga\]//
+"     silent! %s/_/ /g
+"     silent! %s/zip/cbr
+" endfunction
+" command! YoManga call YoManga()
 
-nnoremap <space> ,
-xnoremap <space> ,
-onoremap <space> ,
+" function! MP3TextFileGenerator()
+"     Renamer
+"     let @s=''
+"     g/\.mp3/yank S
+"     edit temp.txt
+"     bd VimRenamer
+"     put=@s
+"     g/^$/d
+"     %s/mp3/txt
+"     %s/ /\\ /g
+"     %join
+"     normal! :arga 
+"     bufdo write
+" endfunction
+" command! MP3TextFileGenerator call MP3TextFileGenerator()
 
-let $md = $dropbox . '/text/markdown'
-let $text = $dropbox . '/text'
-let $ftplugin = $configs . '/.vim/ftplugin'
-
-iabbrev arw ->
-
-function! YoManga()
-    silent! %s/\[YoManga\]//
-    silent! %s/_/ /g
-    silent! %s/zip/cbr
+" SOME SHIT IS HERE
+function! FixCase()
+    " silent! '<,'>s/^/\=line('.')-line("'<")+1
+    silent! '<,'>s/\(\u\)\(\u\+\)/\1\L\2/g
 endfunction
+command! FC call FixCase()
 
-command! YoManga call YoManga()
-
-onoremap { V{
-onoremap } V}
-
-function! MP3TextFileGenerator()
-    Renamer
-    let @s=''
-    g/\.mp3/yank S
-    edit temp.txt
-    bd VimRenamer
-    put=@s
-    g/^$/d
-    %s/mp3/txt
-    %s/ /\\ /g
-    %join
-    normal! :arga 
-    bufdo write
-endfunction
-
-command! MP3TextFileGenerator call MP3TextFileGenerator()
-
-cnoremap jk <C-c>
-
-nnoremap U <C-r>
-
-nnoremap yo :silent !pandoc -o paper.html paper.md \| paper.html<CR>
-
-nnoremap <expr> k (v:count > 1 ? "m'" . v:count : '') . 'gj'
-nnoremap <expr> l (v:count > 1 ? "m'" . v:count : '') . 'gk'
-
-nnoremap <silent> <Space>k :<C-U>VertigoDown n<CR>
-vnoremap <silent> <Space>k :<C-U>VertigoDown v<CR>
-onoremap <silent> <Space>k :<C-U>VertigoDown o<CR>
-nnoremap <silent> <Space>l :<C-U>VertigoUp n<CR>
-vnoremap <silent> <Space>l :<C-U>VertigoUp v<CR>
-onoremap <silent> <Space>l :<C-U>VertigoUp o<CR>
-
-let g:ctrlp_prompt_mappings = {
-    \ 'PrtSelectMove("j")':   ['<c-k>', '<down>'],
-    \ 'PrtSelectMove("k")':   ['<c-l>', '<up>'],
-    \ 'PrtCurRight()':        [ '<right>'],
-    \ }
-
-" %s/\(\u\)\(\u\+\)/\1\L\2/g
-
-" nmap  cxx <Plug>(ExchangeLine)
-" nmap  cxc <Plug>(ExchangeClear)
-" nmap  cx  <Plug>(Exchange)
-" xmap  X   <Plug>(Exchange)
-"
-" nmap ds  <Plug>Dsurround
-" nmap cs  <Plug>Csurround
-" nmap cS  <Plug>CSurround
-" nmap ys  <Plug>Ysurround
-" nmap yS  <Plug>YSurround
-" nmap yss <Plug>Yssurround
-" nmap ySs <Plug>YSsurround
-" nmap ySS <Plug>YSsurround
-" xmap S   <Plug>VSurround
-
-
+" }}}2
+" vim: foldmethod=marker
