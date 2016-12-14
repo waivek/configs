@@ -3,67 +3,30 @@ set nocompatible
 set runtimepath+=X:\Dropbox\Public\configs\vim\.vim\dein\repos\github.com\Shougo\dein.vim
 set runtimepath+=/X/Dropbox/Public/configs/vim/.vim/dein/repos/github.com/Shougo/dein.vim
 call dein#begin( 'X:\Dropbox\Public\configs\vim\.vim\dein\' )
-
-" " Plug 'tpope/vim-fugitive'
-    call dein#add('tpope/vim-fugitive')
-" " Plug 'SirVer/ultisnips'        
-" " Plug 'othree/eregex.vim'
-" call dein#add('bling/vim-airline',
-    "     \ { 'merged': 0 })
-    " call dein#add('vim-airline/vim-airline-themes' )
-
-
+    call dein#add('Shougo/dein.vim')
     call dein#add('ap/vim-buftabline')
     call dein#add( 'wellle/targets.vim' )
-
-    call dein#add('justinmk/vim-sneak',
-            \ {'on_map' : ['<Plug>SneakLabel_s', '<Plug>SneakLabel_S']})
-
-    call dein#add('tomtom/tcomment_vim',
-            \ {'on_map': 'gc',
-            \  'on_cmd' : 'TComment'})
-    call dein#add('kien/ctrlp.vim', 
-            \ { 'on_cmd' : 'CtrlPMRUFiles' })
-    call dein#add('qpkorr/vim-renamer', 
-            \ { 'on_cmd': 'Renamer'})
+    " call dein#add('tpope/vim-fugitive', { 'if' : 0, 'on_cmd': [ 'Git', 'Gstatus', 'Gwrite', 'Glog', 'Gcommit', 'Gblame', 'Ggrep', 'Gdiff', ]})
+    call dein#add('tpope/vim-fugitive')
+    call dein#add('justinmk/vim-sneak', {'on_map' : ['<Plug>SneakLabel_s', '<Plug>SneakLabel_S']})
+    call dein#add('tomtom/tcomment_vim', {'on_map': 'gc', 'on_cmd' : 'TComment'})
+    call dein#add('kien/ctrlp.vim', { 'on_cmd' : 'CtrlPMRUFiles' })
+    call dein#add('qpkorr/vim-renamer', { 'on_cmd': 'Renamer'})
     " Not first time
-    call dein#add('godlygeek/tabular', 
-            \ { 'on_cmd' : [ 'Tab', 'Tabularize' ] ,
-            \   'on_map' : 'ga' })
-    call dein#add('tommcdo/vim-exchange', 
-            \ { 'on_map' : {'n' : 'cx', 'x' : 'X' } } )
-
-    call dein#add('tpope/vim-repeat',
-            \ {'on_map' : '.'})
-    call dein#add( 'tpope/vim-surround',
-            \ {'on_map': {'n' : ['cs', 'ds', 'ys'], 'x' : ['S']},
-            \ 'depends' : 'vim-repeat'})
-
-    call dein#add('Raimondi/delimitMate', {
-            \ 'on_event' : 'InsertEnter',
-            \ })
-
-    call dein#add('terryma/vim-multiple-cursors',
-            \ { 'on_map' : { 'n' : ['<C-n>', '<C-p>'], 'x' : '<C-n>'}})
+    call dein#add('godlygeek/tabular', { 'on_cmd' : [ 'Tab', 'Tabularize' ] , 'on_map' : 'ga' })
+    call dein#add('tommcdo/vim-exchange', { 'on_map' : {'n' : 'cx', 'x' : 'X' } } ) 
+    call dein#add('tpope/vim-repeat', {'on_map' : '.'}) 
+    call dein#add( 'tpope/vim-surround', {'on_map': {'n' : ['cs', 'ds', 'ys'], 'x' : ['S']}, 'depends' : 'vim-repeat'})
+    call dein#add('Raimondi/delimitMate', { 'on_event' : 'InsertEnter', })
+    call dein#add('terryma/vim-multiple-cursors', { 'on_map' : { 'n' : ['<C-n>', '<C-p>'], 'x' : '<C-n>'}}) 
     call dein#add('kana/vim-textobj-user')
-    call dein#add('glts/vim-textobj-comment', 
-            \ {'on_map' :['<Plug>(textobj-comment-a)', '<Plug>(textobj-comment-i)', '<Plug>(textobj-comment-i)', '<Plug>(textobj-comment-big-a)']}) 
-    call dein#add('coderifous/textobj-word-column.vim',
-            \ {'on_map': {'xo' : ['ic', 'ac']}})
-
-    call dein#add('kana/vim-textobj-indent',
-            \ {'on_map': {'xo' : ['ii', 'ai']}})
-
-    call dein#add('zirrostig/vim-schlepp', 
-            \ { 'on_map' :  ['<Plug>SchleppIndentDown', '<Plug>SchleppIndentUp', '<Plug>SchleppLeft', '<Plug>SchleppRight']})
-
-    call dein#add('osyo-manga/vim-over', 
-            \ { 'on_cmd' : 'OverCommandLine' })
-    call dein#add('bps/vim-textobj-python', 
-            \{ 'on_ft' : 'python' })
-    call dein#add('tmhedberg/matchit', 
-            \{ 'on_ft' : 'html' })
-
+    call dein#add('glts/vim-textobj-comment', {'on_map' :['<Plug>(textobj-comment-a)', '<Plug>(textobj-comment-i)', '<Plug>(textobj-comment-i)', '<Plug>(textobj-comment-big-a)']}) 
+    call dein#add('coderifous/textobj-word-column.vim', {'on_map': {'xo' : ['ic', 'ac']}}) 
+    call dein#add('kana/vim-textobj-indent', {'on_map': {'xo' : ['ii', 'ai']}}) 
+    call dein#add('zirrostig/vim-schlepp', { 'on_map' :  ['<Plug>SchleppIndentDown', '<Plug>SchleppIndentUp', '<Plug>SchleppLeft', '<Plug>SchleppRight']}) 
+    call dein#add('osyo-manga/vim-over', { 'on_cmd' : 'OverCommandLine' }) 
+    call dein#add('bps/vim-textobj-python', { 'on_ft' : 'python' }) 
+    call dein#add('tmhedberg/matchit', { 'on_ft' : 'html' }) 
 call dein#end()
 
     " }}}2
@@ -118,6 +81,9 @@ let g:ctrlp_prompt_mappings = {
             \ 'PrtSelectMove("k")':   ['<c-l>', '<up>'],
             \ 'PrtCurRight()':        [ '<right>'],
             \ }
+" Shows fugitive branch and commit status
+set statusline=%<%f\ %h%m%r%{exists('g:loaded_fugitive')?fugitive#statusline():''}%=%-14.(%l,%c%V%)\ %P
+" set statusline+=%{exists('g:loaded_fugitive')?fugitive#statusline():''}
 
 " }}}2
 " Paths " {{{2
