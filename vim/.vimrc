@@ -1,17 +1,20 @@
 " Plugins  {{{2
 set nocompatible
 set runtimepath+=X:\Dropbox\Public\configs\vim\.vim\dein\repos\github.com\Shougo\dein.vim
+set runtimepath+=/X/Dropbox/Public/configs/vim/.vim/dein/repos/github.com/Shougo/dein.vim
 call dein#begin( 'X:\Dropbox\Public\configs\vim\.vim\dein\' )
 
 " " Plug 'tpope/vim-fugitive'
+    call dein#add('tpope/vim-fugitive')
 " " Plug 'SirVer/ultisnips'        
 " " Plug 'othree/eregex.vim'
 " call dein#add('bling/vim-airline',
     "     \ { 'merged': 0 })
     " call dein#add('vim-airline/vim-airline-themes' )
 
+
     call dein#add('ap/vim-buftabline')
-    call dein#add('wellle/targets.vim')
+    call dein#add( 'wellle/targets.vim' )
 
     call dein#add('justinmk/vim-sneak',
             \ {'on_map' : ['<Plug>SneakLabel_s', '<Plug>SneakLabel_S']})
@@ -265,22 +268,27 @@ nnoremap yo :silent !pandoc -o paper.html paper.md \| paper.html<CR>
 nnoremap <expr> k (v:count > 1 ? "m'" . v:count : '') . 'gj'
 nnoremap <expr> l (v:count > 1 ? "m'" . v:count : '') . 'gk'
 
-nnoremap <silent> <Space>k :<C-U>VertigoDown n<CR>
-vnoremap <silent> <Space>k :<C-U>VertigoDown v<CR>
-onoremap <silent> <Space>k :<C-U>VertigoDown o<CR>
-nnoremap <silent> <Space>l :<C-U>VertigoUp n<CR>
-vnoremap <silent> <Space>l :<C-U>VertigoUp v<CR>
-onoremap <silent> <Space>l :<C-U>VertigoUp o<CR>
+" nnoremap <silent> <Space>k :<C-U>VertigoDown n<CR>
+" vnoremap <silent> <Space>k :<C-U>VertigoDown v<CR>
+" onoremap <silent> <Space>k :<C-U>VertigoDown o<CR>
+" nnoremap <silent> <Space>l :<C-U>VertigoUp n<CR>
+" vnoremap <silent> <Space>l :<C-U>VertigoUp v<CR>
+" onoremap <silent> <Space>l :<C-U>VertigoUp o<CR>
 
 onoremap { V{
 onoremap } V}
 
-nnoremap <space> ,
-xnoremap <space> ,
-onoremap <space> ,
+" nnoremap <space> ,
+" xnoremap <space> ,
+" onoremap <space> ,
 
 iabbrev arw ->
 
+noremap zk zj
+noremap zl zk
+
+cabbrev h vertical help
+cabbrev help vertical help
 " }}}2
 " Option Settings {{{2
 " To make CTRL-A work on 07
@@ -344,6 +352,8 @@ if has("nvim")
     " Prevents terminal buffer from being deleted once it's window closes
     autocmd TermOpen * set hidden
 endif
+
+let g:space_loaded = 1
 
 " }}}2
 " User Defined Functions {{{2
