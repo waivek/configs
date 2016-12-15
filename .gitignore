@@ -16,3 +16,5 @@ vim/.vim/vim-addons/vim-snippets/snippets/*
 !vim/.vim/vim-addons/vim-snippets/snippets/c.snippets
 !vim/.vim/vim-addons/vim-snippets/snippets/cpp.snippets
 !vim/.vim/vim-addons/vim-snippets/snippets/make.snippets
+
+idea/*
