@@ -1,4 +1,4 @@
-" Plugins  {{{2
+" Plugins  {{{1
 set nocompatible
 set runtimepath+=X:\Dropbox\Public\configs\vim\.vim\dein\repos\github.com\Shougo\dein.vim
 set runtimepath+=/X/Dropbox/Public/configs/vim/.vim/dein/repos/github.com/Shougo/dein.vim
@@ -6,8 +6,8 @@ call dein#begin( 'X:\Dropbox\Public\configs\vim\.vim\dein\' )
     call dein#add('Shougo/dein.vim')
     call dein#add('ap/vim-buftabline')
     call dein#add( 'wellle/targets.vim' )
-    " call dein#add('tpope/vim-fugitive', { 'if' : 0, 'on_cmd': [ 'Git', 'Gstatus', 'Gwrite', 'Glog', 'Gcommit', 'Gblame', 'Ggrep', 'Gdiff', ]})
-    call dein#add('tpope/vim-fugitive')
+    call dein#add('tpope/vim-fugitive')   
+    " call dein#add('tpope/vim-fugitive', { 'on_cmd': [ 'Git', 'Gstatus', 'Gwrite', 'Glog', 'Gcommit', 'Gblame', 'Ggrep', 'Gdiff', ], 'augroup': 'fugitive'})
     call dein#add('justinmk/vim-sneak', {'on_map' : ['<Plug>SneakLabel_s', '<Plug>SneakLabel_S']})
     call dein#add('tomtom/tcomment_vim', {'on_map': 'gc', 'on_cmd' : 'TComment'})
     call dein#add('kien/ctrlp.vim', { 'on_cmd' : 'CtrlPMRUFiles' })
@@ -29,10 +29,10 @@ call dein#begin( 'X:\Dropbox\Public\configs\vim\.vim\dein\' )
     call dein#add('tmhedberg/matchit', { 'on_ft' : 'html' }) 
 call dein#end()
 
-    " }}}2
+    " }}}1
 set nocompatible | filetype indent plugin on | syn on 
 colorscheme  molokai
-" Plugin Settings {{{2
+" Plugin Settings {{{1
 " === VIM-AIRLINE SETTINGS : START ===
 "URL = http://www.4thinker.com/vim-airline.html
 " Necessary for vim-ariline to show in normal window
@@ -85,9 +85,22 @@ let g:ctrlp_prompt_mappings = {
 set statusline=%<%f\ %h%m%r%{exists('g:loaded_fugitive')?fugitive#statusline():''}%=%-14.(%l,%c%V%)\ %P
 " set statusline+=%{exists('g:loaded_fugitive')?fugitive#statusline():''}
 
-" }}}2
-" Paths " {{{2
+nnoremap cm :CtrlPMRUFiles<CR>
 
+xmap <silent> K <Plug>SchleppIndentDown
+xmap <silent> L <Plug>SchleppIndentUp
+
+xmap <silent> <Left> <Plug>SchleppLeft
+xmap <silent> <Right> <Plug>SchleppRight
+
+let g:sneak#label = 1
+nmap s <Plug>SneakLabel_s
+nmap S <Plug>SneakLabel_S
+nmap , <Plug>Sneak_;
+xmap , <Plug>Sneak_;
+
+" }}}1
+" Paths " {{{1
 if has("win32")
     source $HOME\vimfiles\autoload\pathConverter.vim
 endif
@@ -133,8 +146,8 @@ let $ftplugin = $configs . '/.vim/ftplugin'
 let $ideavimrc = 'C:\Users\Toshiba PC\.ideavimrc'
 let $vsvimrc = 'C:\HOME\.vsvimrc'
 
-" }}}2
-" Remaps {{{2
+" }}}1
+" Remaps {{{1
 if has("nvim")
     tnoremap jk  <C-\><C-n>
     tnoremap <Esc> <C-\><C-n>
@@ -189,8 +202,6 @@ nnoremap <C-w>: <C-w>L
 " let mapleader = " "
 " nnoremap <Leader><space> :
 
-nnoremap cm :CtrlPMRUFiles<CR>
-
 nnoremap <S-Tab> <C-o>
 
 nnoremap <C-TAB> :bn<CR>
@@ -205,18 +216,7 @@ xnoremap h "+
 nnoremap , ;
 xnoremap , ;
 
-xmap <silent> K <Plug>SchleppIndentDown
-xmap <silent> L <Plug>SchleppIndentUp
-
-xmap <silent> <Left> <Plug>SchleppLeft
-xmap <silent> <Right> <Plug>SchleppRight
 nnoremap <BS> :set hls!<CR>
-
-let g:sneak#label = 1
-nmap s <Plug>SneakLabel_s
-nmap S <Plug>SneakLabel_S
-nmap , <Plug>Sneak_;
-xmap , <Plug>Sneak_;
 
 cnoremap <C-l> <Up>
 cnoremap <C-k> <Down>
@@ -255,8 +255,8 @@ noremap zl zk
 
 cabbrev h vertical help
 cabbrev help vertical help
-" }}}2
-" Option Settings {{{2
+" }}}1
+" Option Settings {{{1
 " To make CTRL-A work on 07
 set nrformats-=octal
 set ignorecase  smartcase  
@@ -321,8 +321,8 @@ endif
 
 let g:space_loaded = 1
 
-" }}}2
-" User Defined Functions {{{2
+" }}}1
+" User Defined Functions {{{1
 function! Number()
     silent! '<,'>s/^/\=line('.')-line("'<")+1
 endfunction
@@ -435,5 +435,5 @@ function! FixCase()
 endfunction
 command! FC call FixCase()
 
-" }}}2
+" }}}1
 " vim: foldmethod=marker
