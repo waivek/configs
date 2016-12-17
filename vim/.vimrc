@@ -6,17 +6,16 @@ call dein#begin( 'X:\Dropbox\Public\configs\vim\.vim\dein\' )
     call dein#add('Shougo/dein.vim')
     call dein#add('ap/vim-buftabline')
     call dein#add( 'wellle/targets.vim' )
-    call dein#add('tpope/vim-fugitive')   
-    " call dein#add('tpope/vim-fugitive', { 'on_cmd': [ 'Git', 'Gstatus', 'Gwrite', 'Glog', 'Gcommit', 'Gblame', 'Ggrep', 'Gdiff', ], 'augroup': 'fugitive'})
+    call dein#add('tpope/vim-fugitive', { 'on_cmd': [ 'Git', 'Gstatus', 'Gwrite', 'Glog', 'Gcommit', 'Gblame', 'Ggrep', 'Gdiff', ] })
     call dein#add('justinmk/vim-sneak', {'on_map' : ['<Plug>SneakLabel_s', '<Plug>SneakLabel_S']})
     call dein#add('tomtom/tcomment_vim', {'on_map': 'gc', 'on_cmd' : 'TComment'})
     call dein#add('kien/ctrlp.vim', { 'on_cmd' : 'CtrlPMRUFiles' })
     call dein#add('qpkorr/vim-renamer', { 'on_cmd': 'Renamer'})
     " Not first time
-    call dein#add('godlygeek/tabular', { 'on_cmd' : [ 'Tab', 'Tabularize' ] , 'on_map' : 'ga' })
+    call dein#add('godlygeek/tabular', { 'on_cmd' : [ 'Tab', 'Tabularize' ] , 'on_map' : 'ga', 'augroup' : 'tabular' })
     call dein#add('tommcdo/vim-exchange', { 'on_map' : {'n' : 'cx', 'x' : 'X' } } ) 
     call dein#add('tpope/vim-repeat', {'on_map' : '.'}) 
-    call dein#add( 'tpope/vim-surround', {'on_map': {'n' : ['cs', 'ds', 'ys'], 'x' : ['S']}, 'depends' : 'vim-repeat'})
+    call dein#add( 'tpope/vim-surround', {'on_map': {'n' : ['cs', 'ds', 'ys'], 'x' : 'S'}, 'depends' : 'vim-repeat'})
     call dein#add('Raimondi/delimitMate', { 'on_event' : 'InsertEnter', })
     call dein#add('terryma/vim-multiple-cursors', { 'on_map' : { 'n' : ['<C-n>', '<C-p>'], 'x' : '<C-n>'}}) 
     call dein#add('kana/vim-textobj-user')
@@ -28,7 +27,6 @@ call dein#begin( 'X:\Dropbox\Public\configs\vim\.vim\dein\' )
     call dein#add('bps/vim-textobj-python', { 'on_ft' : 'python' }) 
     call dein#add('tmhedberg/matchit', { 'on_ft' : 'html' }) 
 call dein#end()
-
     " }}}1
 set nocompatible | filetype indent plugin on | syn on 
 colorscheme  molokai
@@ -99,6 +97,8 @@ nmap S <Plug>SneakLabel_S
 nmap , <Plug>Sneak_;
 xmap , <Plug>Sneak_;
 
+let g:buftabline_numbers=1
+
 " }}}1
 " Paths " {{{1
 if has("win32")
@@ -144,8 +144,7 @@ let $md = $dropbox . '/text/markdown'
 let $text = $dropbox . '/text'
 let $ftplugin = $configs . '/.vim/ftplugin'
 let $ideavimrc = 'C:\Users\Toshiba PC\.ideavimrc'
-let $vsvimrc = 'C:\HOME\.vsvimrc'
-
+let $vsvimrc = $dropbox . '\Public\configs\vim\.vsvimrc'
 " }}}1
 " Remaps {{{1
 if has("nvim")
@@ -255,6 +254,10 @@ noremap zl zk
 
 cabbrev h vertical help
 cabbrev help vertical help
+
+if v:servername=="VS"
+    nnoremap <Space> :w<CR>
+endif
 " }}}1
 " Option Settings {{{1
 " To make CTRL-A work on 07

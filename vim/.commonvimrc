@@ -31,5 +31,9 @@ nmap <silent> <C-l> :.-1put=""<CR>
 nnoremap <BS> :set hls!<CR>
 nnoremap Y y$
 
+cnoremap <C-l> <Up>
+cnoremap <C-k> <Down>
+
+
 echo "Reloaded .commonvimrc"
 
