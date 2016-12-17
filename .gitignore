@@ -18,3 +18,5 @@ vim/.vim/vim-addons/vim-snippets/snippets/*
 !vim/.vim/vim-addons/vim-snippets/snippets/make.snippets
 
 idea/*
+intellij/*
+spacemacs/*
