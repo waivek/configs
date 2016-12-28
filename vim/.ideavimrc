@@ -15,7 +15,6 @@ set surround
 set incsearch
 
 " http://devmake.com/starting-vim-gvim-from-intellij/
-nmap gw :action Tool_External Tools_Vim<CR>
 nmap cr :source C:/Users/Toshiba PC/.ideavimrc<CR>:echo "Reloaded .ideavimrc"<CR>
 nmap cv :action RenameElement<CR>
 
@@ -38,3 +37,5 @@ nmap zO :action ExpandAllToLevel1<CR>
 
 nmap gi :action Inline<CR>
 nmap ge :action IntroduceVariable<CR>
+
+nmap <Space> :w<CR>:action Tool_External Tools_Vim<CR>
