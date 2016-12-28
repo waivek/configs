@@ -3,6 +3,7 @@ set nocompatible
 set runtimepath+=X:\Dropbox\Public\configs\vim\.vim\dein\repos\github.com\Shougo\dein.vim
 set runtimepath+=/X/Dropbox/Public/configs/vim/.vim/dein/repos/github.com/Shougo/dein.vim
 call dein#begin( 'X:\Dropbox\Public\configs\vim\.vim\dein\' )
+" call dein#begin( '/X/Dropbox/Public/configs/vim/.vim/dein/' )
     call dein#add('Shougo/dein.vim')
     call dein#add('ap/vim-buftabline')
     call dein#add( 'wellle/targets.vim' )
