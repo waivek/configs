@@ -1,15 +1,18 @@
 " Plugins  {{{1
 set nocompatible
+if has("gui_running")
 set runtimepath+=X:\Dropbox\Public\configs\vim\.vim\dein\repos\github.com\Shougo\dein.vim
 set runtimepath+=/X/Dropbox/Public/configs/vim/.vim/dein/repos/github.com/Shougo/dein.vim
 call dein#begin( 'X:\Dropbox\Public\configs\vim\.vim\dein\' )
 " call dein#begin( '/X/Dropbox/Public/configs/vim/.vim/dein/' )
     call dein#add('Shougo/dein.vim')
+    call dein#add('SirVer/ultisnips' , { 'on_event' : 'InsertEnter' })
     call dein#add('ap/vim-buftabline')
     call dein#add( 'wellle/targets.vim' )
     call dein#add('tpope/vim-fugitive', { 'on_cmd': [ 'Git', 'Gstatus', 'Gwrite', 'Glog', 'Gcommit', 'Gblame', 'Ggrep', 'Gdiff', ] })
     call dein#add('justinmk/vim-sneak', {'on_map' : ['<Plug>SneakLabel_s', '<Plug>SneakLabel_S']})
     call dein#add('tomtom/tcomment_vim', {'on_map': 'gc', 'on_cmd' : 'TComment'})
+    
     call dein#add('kien/ctrlp.vim', { 'on_cmd' : 'CtrlPMRUFiles' })
     call dein#add('qpkorr/vim-renamer', { 'on_cmd': 'Renamer'})
     " Not first time
@@ -28,11 +31,14 @@ call dein#begin( 'X:\Dropbox\Public\configs\vim\.vim\dein\' )
     call dein#add('bps/vim-textobj-python', { 'on_ft' : 'python' }) 
     call dein#add('tmhedberg/matchit', { 'on_ft' : 'html' }) 
 call dein#end()
+endif
     " }}}1
 set nocompatible | filetype indent plugin on | syn on 
-colorscheme  molokai
+if has("gui_running")
+    colorscheme  molokai
+endif
 " Plugin Settings {{{1
-" === VIM-AIRLINE SETTINGS : START ===
+" === VIM-AIRLINE SETTINGS === {{{2
 "URL = http://www.4thinker.com/vim-airline.html
 " Necessary for vim-ariline to show in normal window
 " Otherwise it shows only when we do a split
@@ -50,63 +56,67 @@ endif
 " in the bottom left corner
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline_theme = 'powerlineish'
-" === VIM-AIRLINE SETTINGS : END ===
-
+" }}}2
 " temp fix - https://github.com/907th/vim-auto-save/issues/18#issuecomment-145367360
-let g:auto_save_in_insert_mode = 0
 
+let g:auto_save_in_insert_mode = 0
+" {{{2 Ulti Snips
 let g:UltiSnipsJumpForwardTrigger = "<C-k>"
 let g:UltiSnipsJumpBackwardTrigger = "<C-l>"
-
+" }}}2
+" DelimitMate {{{2
 let delimitMate_expand_cr = 1
 let delimitMate_expand_space=1
 let delimitMate_jump_expansion = 1
+" }}}2
 let g:multi_cursor_exit_from_insert_mode = 0
 let g:eregex_default_enable = 0
-
+" textobj-comment {{{2
 " To prevent map conflict with textobj-column
 let g:textobj_comment_no_default_key_mappings = 1
 xmap ax <Plug>(textobj-comment-a)
 omap ax <Plug>(textobj-comment-a)
-
 xmap ix <Plug>(textobj-comment-i)
 omap ix <Plug>(textobj-comment-i)
-
 xmap aX <Plug>(textobj-comment-big-a)
 omap aX <Plug>(textobj-comment-big-a)
-
+" }}}2
+" CtrlP {{{2
 let g:ctrlp_prompt_mappings = {
             \ 'PrtSelectMove("j")':   ['<c-k>', '<down>'],
             \ 'PrtSelectMove("k")':   ['<c-l>', '<up>'],
             \ 'PrtCurRight()':        [ '<right>'],
             \ }
+nnoremap cm :CtrlPMRUFiles<CR>
+" }}}2
 " Shows fugitive branch and commit status
 set statusline=%<%f\ %h%m%r%{exists('g:loaded_fugitive')?fugitive#statusline():''}%=%-14.(%l,%c%V%)\ %P
 " set statusline+=%{exists('g:loaded_fugitive')?fugitive#statusline():''}
-
-nnoremap cm :CtrlPMRUFiles<CR>
-
+" Schlepp {{{2
 xmap <silent> K <Plug>SchleppIndentDown
 xmap <silent> L <Plug>SchleppIndentUp
-
 xmap <silent> <Left> <Plug>SchleppLeft
 xmap <silent> <Right> <Plug>SchleppRight
-
+" }}}2
+" Sneak {{{2
 let g:sneak#label = 1
 nmap s <Plug>SneakLabel_s
 nmap S <Plug>SneakLabel_S
 nmap , <Plug>Sneak_;
 xmap , <Plug>Sneak_;
-
+" }}}2
 let g:buftabline_numbers=1
 
+let g:dein#install_process_timeout=600
 " }}}1
 " Paths " {{{1
+if has("gui_running")
 if has("win32")
     source $HOME\vimfiles\autoload\pathConverter.vim
 endif
 if has("unix")
     source $HOME/.vim/autoload/pathConverter.vim
+endif
 endif
 
 let $dropbox = 'X:\Dropbox'
@@ -122,6 +132,7 @@ let $spanish = $dropbox . '\js\spanish'
 let $desktop = 'C:\Users\Toshiba PC\Desktop'
 " Necessary for plugins requiring python
 let $pythonhome = 'C:\Python27'
+if has("gui_running")
 if has("unix")
     let $vimrc = ConvertWin32ToUnix($vimrc)
     let $haskell = ConvertWin32ToUnix($haskell)
@@ -130,6 +141,7 @@ if has("unix")
     let $spanish = ConvertWin32ToUnix($spanish)
     let $shell_scripts = $dropbox . '/sh'
     let $commonvimrc = ConvertWin32ToUnix($commonvimrc)
+endif
 endif
 
 if has("unix")
@@ -146,6 +158,7 @@ let $text = $dropbox . '/text'
 let $ftplugin = $configs . '/.vim/ftplugin'
 let $ideavimrc = 'C:\Users\Toshiba PC\.ideavimrc'
 let $vsvimrc = $dropbox . '\Public\configs\vim\.vsvimrc'
+let $ideavimrc = '\Public\configs\vim\.ideavimrc'
 " }}}1
 " Remaps {{{1
 if has("nvim")
@@ -241,8 +254,8 @@ nnoremap <expr> l (v:count > 1 ? "m'" . v:count : '') . 'gk'
 " vnoremap <silent> <Space>l :<C-U>VertigoUp v<CR>
 " onoremap <silent> <Space>l :<C-U>VertigoUp o<CR>
 
-onoremap { V{
-onoremap } V}
+" onoremap { V{
+" onoremap } V}
 
 " nnoremap <space> ,
 " xnoremap <space> ,
@@ -256,9 +269,16 @@ noremap zl zk
 cabbrev h vertical help
 cabbrev help vertical help
 
-if v:servername=="VS"
+if v:servername=="VS" 
+    set autoread
     nnoremap <Space> :w<CR>
 endif
+if v:servername=="IJ"
+    set autoread
+    set autowrite
+    nnoremap <Space> :w<CR>
+endif
+
 " }}}1
 " Option Settings {{{1
 " To make CTRL-A work on 07
@@ -292,6 +312,7 @@ set splitright
 au BufRead,BufNewFile *.md set filetype=markdown
 " Sets syntax highlighting for bash_aliases and history
 au BufRead,BufNewFile *.bash* set filetype=sh
+au BufRead,BufNewFile *.ps1 set filetype=powershell
 
 if has("win32")
     " GUI OPTIONS
@@ -441,3 +462,4 @@ command! FC call FixCase()
 
 " }}}1
 " vim: foldmethod=marker
+
