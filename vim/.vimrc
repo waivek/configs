@@ -1,5 +1,5 @@
-" Plugins  {{{1
 
+" Plugins  {{{1
 set nocompatible
 if has("gui_running")
 set runtimepath+=X:\Dropbox\Public\configs\vim\.vim\dein\repos\github.com\Shougo\dein.vim
@@ -7,6 +7,7 @@ call dein#begin( 'X:\Dropbox\Public\configs\vim\.vim\dein\' )
     call dein#add('Shougo/dein.vim')
     call dein#add('ap/vim-buftabline')
     call dein#add('wellle/targets.vim')
+    call dein#add('kana/vim-textobj-entire', {'on_map': {'xo' : ['ie', 'ae']}}) 
     call dein#add('SirVer/ultisnips' ,  {'on_map' : { 'i' : ['<TAB>'] }})
     call dein#add('tpope/vim-fugitive', { 'on_cmd': [ 'Git', 'Gstatus', 'Gwrite', 'Glog', 'Gcommit', 'Gblame', 'Ggrep', 'Gdiff', ] })
     call dein#add('justinmk/vim-sneak', {'on_map' : ['<Plug>SneakLabel_s', '<Plug>SneakLabel_S']})
@@ -18,7 +19,6 @@ call dein#begin( 'X:\Dropbox\Public\configs\vim\.vim\dein\' )
     call dein#add('tommcdo/vim-exchange', { 'on_map' : {'n' : 'cx', 'x' : 'X' } } ) 
     call dein#add('tpope/vim-repeat', {'on_map' : '.'}) 
     call dein#add('tpope/vim-surround', {'on_map': {'n' : ['cs', 'ds', 'ys'], 'x' : 'S'}, 'depends' : 'vim-repeat'})
-    call dein#add('Raimondi/delimitMate', { 'on_event' : 'InsertEnter', })
     call dein#add('Raimondi/delimitMate', {'on_map' : { 'i' : ['(', '[', '{' ] }})
     call dein#add('terryma/vim-multiple-cursors', { 'on_map' : { 'n' : ['<C-n>', '<C-p>'], 'x' : '<C-n>'}}) 
     call dein#add('kana/vim-textobj-user')
