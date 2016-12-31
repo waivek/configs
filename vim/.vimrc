@@ -1,24 +1,25 @@
 " Plugins  {{{1
+
 set nocompatible
-" if has("gui_running")
+if has("gui_running")
 set runtimepath+=X:\Dropbox\Public\configs\vim\.vim\dein\repos\github.com\Shougo\dein.vim
 call dein#begin( 'X:\Dropbox\Public\configs\vim\.vim\dein\' )
     call dein#add('Shougo/dein.vim')
-    call dein#add('SirVer/ultisnips' , { 'on_event' : 'InsertEnter' })
     call dein#add('ap/vim-buftabline')
-    call dein#add( 'wellle/targets.vim' )
+    call dein#add('wellle/targets.vim')
+    call dein#add('SirVer/ultisnips' ,  {'on_map' : { 'i' : ['<TAB>'] }})
     call dein#add('tpope/vim-fugitive', { 'on_cmd': [ 'Git', 'Gstatus', 'Gwrite', 'Glog', 'Gcommit', 'Gblame', 'Ggrep', 'Gdiff', ] })
     call dein#add('justinmk/vim-sneak', {'on_map' : ['<Plug>SneakLabel_s', '<Plug>SneakLabel_S']})
     call dein#add('tomtom/tcomment_vim', {'on_map': 'gc', 'on_cmd' : 'TComment'})
-    
     call dein#add('kien/ctrlp.vim', { 'on_cmd' : 'CtrlPMRUFiles' })
     call dein#add('qpkorr/vim-renamer', { 'on_cmd': 'Renamer'})
     " Not first time
-    call dein#add('godlygeek/tabular', { 'on_cmd' : [ 'Tab', 'Tabularize' ] , 'on_map' : 'ga', 'augroup' : 'tabular' })
+    call dein#add('godlygeek/tabular', { 'on_cmd' : [ 'Tab', 'Tabularize' ] , 'augroup' : 'tabular' })
     call dein#add('tommcdo/vim-exchange', { 'on_map' : {'n' : 'cx', 'x' : 'X' } } ) 
     call dein#add('tpope/vim-repeat', {'on_map' : '.'}) 
-    call dein#add( 'tpope/vim-surround', {'on_map': {'n' : ['cs', 'ds', 'ys'], 'x' : 'S'}, 'depends' : 'vim-repeat'})
+    call dein#add('tpope/vim-surround', {'on_map': {'n' : ['cs', 'ds', 'ys'], 'x' : 'S'}, 'depends' : 'vim-repeat'})
     call dein#add('Raimondi/delimitMate', { 'on_event' : 'InsertEnter', })
+    call dein#add('Raimondi/delimitMate', {'on_map' : { 'i' : ['(', '[', '{' ] }})
     call dein#add('terryma/vim-multiple-cursors', { 'on_map' : { 'n' : ['<C-n>', '<C-p>'], 'x' : '<C-n>'}}) 
     call dein#add('kana/vim-textobj-user')
     call dein#add('glts/vim-textobj-comment', {'on_map' :['<Plug>(textobj-comment-a)', '<Plug>(textobj-comment-i)', '<Plug>(textobj-comment-i)', '<Plug>(textobj-comment-big-a)']}) 
@@ -29,9 +30,9 @@ call dein#begin( 'X:\Dropbox\Public\configs\vim\.vim\dein\' )
     call dein#add('bps/vim-textobj-python', { 'on_ft' : 'python' }) 
     call dein#add('tmhedberg/matchit', { 'on_ft' : 'html' }) 
 call dein#end()
-" endif
+endif
     " }}}1
-set nocompatible | filetype indent plugin on | syn on 
+set nocompatible | filetype indent plugin on | syntax on 
 if has("gui_running")
     colorscheme  molokai
 endif
@@ -64,7 +65,6 @@ let g:ctrlp_prompt_mappings = {
             \ }
 nnoremap cm :CtrlPMRUFiles<CR>
 " }}}2
-" Shows fugitive branch and commit status
 set statusline=%<%f\ %h%m%r%{exists('g:loaded_fugitive')?fugitive#statusline():''}%=%-14.(%l,%c%V%)\ %P
 " Schlepp {{{2
 xmap <silent> K <Plug>SchleppIndentDown
@@ -233,6 +233,7 @@ if has("win32")
     set guifont=Powerline_Consolas:h11:cANSI
 endif
 
+set laststatus=2
 " }}}1
 " User Defined Functions {{{1
 function! Number()
@@ -240,20 +241,26 @@ function! Number()
 endfunction
 command! Number call Number()
 
-function! OneLineDown ()
-    .put=''
-endfunction
-function! OneLineUp ()
-    .-1put=''
-endfunction
 nnoremap <silent>  :.put=''<CR>
 nnoremap <silent>  :.-1put=''<CR>
 
-function! DuplicateAndComment ()
-    silent! '<,'>t'>
-    silent! '<,'>TComment
+function! DuplicateAndComment (...)
+    let sel_save = &selection
+    let &selection = "inclusive"
+    let reg_save = @@
+    if !a:0
+        silent exe "normal! gvy"
+    endif
+
+    silent! :'[,']t'[-1
+    silent :'[,']TComment
+    silent! :']+1
+
+    let &selection = sel_save
+    let @@ = reg_save
 endfunction
-xmap gy :call DuplicateAndComment ()<CR>
+nmap <silent> gy :set opfunc=DuplicateAndComment<CR>g@
+vmap <silent> gy :<C-U>call DuplicateAndComment()<CR>
 
 function! DeleteToOneLine ()
     silent! %s/^\s\+$//
@@ -284,4 +291,3 @@ command! FC call FixCase()
 
 " }}}1
 " vim: foldmethod=marker
-
